@@ -68,7 +68,6 @@ public class GameManager : MonoBehaviour {
                 case -1:
                     //gameover
                     Reset();
-                    Debug.Log("here");
                     // play animation
                     break;
                 case 1:
