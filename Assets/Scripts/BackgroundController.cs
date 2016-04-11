@@ -11,7 +11,7 @@ public class BackgroundController : MonoBehaviour {
 
     Vector3 bgLeftPos;
 
-	public void SelfStart () {
+	public void OnLoad () {
         // Get needed UNIT width with the bounds property, multiplying by scale factor to be precise.
         //bg01.GetComponent<SpriteRenderer>().sprite.rect.width <-- in pixels
         bg01Width = bg01.GetComponent<SpriteRenderer>().sprite.bounds.size.x * bg01.transform.localScale.x;
@@ -21,7 +21,7 @@ public class BackgroundController : MonoBehaviour {
         Reset();
     }
 	
-	public void SelfUpdate (float speed) {
+	public void OnFrame (float speed) {
         bgRight.transform.Translate(speed * Time.deltaTime, 0.0f, 0.0f);
         bgLeftPos.Set(bgRight.transform.position.x - bg01Width, 0.0f, 0.0f);
         bgLeft.transform.position = bgLeftPos;
