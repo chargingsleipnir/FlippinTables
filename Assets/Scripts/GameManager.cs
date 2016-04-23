@@ -12,7 +12,8 @@ public class GameManager : MonoBehaviour {
     TableController tbCtrl;
     GUIController guiCtrl;
 
-    public GameObject player;
+    public GameObject playerObj;
+    Player player;
     float playerWidth;
 
     float speed;
@@ -25,7 +26,9 @@ public class GameManager : MonoBehaviour {
         guiCtrl = GetComponent<GUIController>();
 
         // Make sure to incorporate SCALE!!!
-        playerWidth = player.GetComponent<SpriteRenderer>().sprite.bounds.size.x * player.transform.localScale.x;
+        playerWidth = playerObj.GetComponent<SpriteRenderer>().sprite.bounds.size.x * playerObj.transform.localScale.x;
+        player = playerObj.GetComponent<Player>();
+
         bgCtrl.OnLoad();
         tbCtrl.OnLoad(playerWidth);
 
@@ -43,6 +46,7 @@ public class GameManager : MonoBehaviour {
         torque = 100.0f;
 
         bgCtrl.Reset();
+        player.Reset();
         tbCtrl.Reset();
         guiCtrl.Reset();
     }
@@ -56,24 +60,28 @@ public class GameManager : MonoBehaviour {
             // update tables, check for flip
             if (tbCtrl.OnFrame(speed))
             {
-                if (Input.GetMouseButtonDown(0))
+                // check for successful player flipping motion/time
+                if(player.OnFrame())
                     if (tbCtrl.CheckFlip(flipForce, torque))
                         OnFlip();
             }
             else
+            {
                 //gameover
+                player.HitTable();
                 Reset();
+            }
         }
         else
         {
             if(Input.GetMouseButtonDown(0))
             {
                 startRun = true;
-                tbCtrl.CheckFlip(flipForce, torque);
-                OnFlip();
+                player.FlipFirstTable();
+                if (tbCtrl.CheckFlip(flipForce, torque))
+                    OnFlip();
             }
         }
-
 	}
 
     void OnFlip()

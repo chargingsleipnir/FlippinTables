@@ -62,7 +62,8 @@ public class TableController : MonoBehaviour {
         foreach(GameObject table in scrollingTableList)
             table.transform.Translate(speed * Time.deltaTime, 0.0f, 0.0f);
 
-        if(flippingTableList.Count > 0)
+        // Queue.Peek() will throw an error if there's no object to peek at, so this check is required.
+        if (flippingTableList.Count > 0)
             if (flippingTableList.Peek().transform.position.y < -5.0f)
                 Destroy(flippingTableList.Dequeue());
 

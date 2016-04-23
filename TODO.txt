@@ -1,0 +1,2 @@
+- Make shadow object, child to player object, always at one y-value level beneath.
+- Table impact animation.
