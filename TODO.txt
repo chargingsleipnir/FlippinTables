@@ -1,2 +1,1 @@
-- Make shadow object, child to player object, always at one y-value level beneath.
-- Table impact animation.
+- Table impact animation. - Do little double dragon / adventures of link homage with cringe and fall back motion.

@@ -17,8 +17,6 @@ public class GameManager : MonoBehaviour {
     float playerWidth;
 
     float speed;
-    Vector2 flipForce;
-    float torque;
 
     void Start () {
         bgCtrl = GetComponent<BackgroundController>();
@@ -26,13 +24,10 @@ public class GameManager : MonoBehaviour {
         guiCtrl = GetComponent<GUIController>();
 
         // Make sure to incorporate SCALE!!!
-        playerWidth = playerObj.GetComponent<SpriteRenderer>().sprite.bounds.size.x * playerObj.transform.localScale.x;
         player = playerObj.GetComponent<Player>();
 
         bgCtrl.OnLoad();
-        tbCtrl.OnLoad(playerWidth);
-
-        flipForce = new Vector2();
+        tbCtrl.OnLoad();
 
         Reset();
 	}
@@ -41,9 +36,7 @@ public class GameManager : MonoBehaviour {
     {
         startRun = false;
         tablesFlipped = 0;
-        speed = 5.0f;
-        flipForce.Set(-400.0f, 800.0f);
-        torque = 100.0f;
+        speed = 6.5f;
 
         bgCtrl.Reset();
         player.Reset();
@@ -57,15 +50,14 @@ public class GameManager : MonoBehaviour {
             // update backgrounds
             bgCtrl.OnFrame(speed);
 
-            // update tables, check for flip
-            if (tbCtrl.OnFrame(speed))
+            // Returns table flip
+            if(tbCtrl.OnFrame(speed))
             {
-                // check for successful player flipping motion/time
-                if(player.OnFrame())
-                    if (tbCtrl.CheckFlip(flipForce, torque))
-                        OnFlip();
+                OnFlip();
             }
-            else
+
+            // Returns player-table impact
+            if(player.OnFrame())
             {
                 //gameover
                 player.HitTable();
@@ -78,8 +70,6 @@ public class GameManager : MonoBehaviour {
             {
                 startRun = true;
                 player.FlipFirstTable();
-                if (tbCtrl.CheckFlip(flipForce, torque))
-                    OnFlip();
             }
         }
 	}
