@@ -52,7 +52,7 @@ public class Player : MonoBehaviour {
         anim.speed = 1.0f;
     }
 
-    public void NextStage()
+    public void SpeedIncrease()
     {
         flipForce.x -= 30.0f;
         flipForce.y += 60.0f;

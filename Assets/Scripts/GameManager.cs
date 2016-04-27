@@ -90,11 +90,15 @@ public class GameManager : MonoBehaviour {
 
         // If flips hits a certain number, increase speeds, flip force, etc.
 
-        if (tablesFlipped % 5 == 0)
+        if (tablesFlipped % 10 == 0)
+        {
+            tbCtrl.PatternChange();
+        }
+        else if (tablesFlipped % 5 == 0)
         {
             speed += 0.5f;
-            tbCtrl.NextStage();
-            player.NextStage();
+            tbCtrl.SpeedIncrease();
+            player.SpeedIncrease();
         }
     }
 }

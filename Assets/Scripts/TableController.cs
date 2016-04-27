@@ -15,8 +15,16 @@ public class TableController : MonoBehaviour {
     bool nextTableInFront;
     Queue<GameObject> flippingTableList;
 
-    float dropTime = 2.0f;
     float counter;
+    float
+        dropTime01,
+        dropTime02,
+        dropTime03;
+
+    bool pattern2Toggle;
+    float pattern3RandomTime;
+
+    int dropPattern;
 
     public void OnLoad()
     {
@@ -44,13 +52,28 @@ public class TableController : MonoBehaviour {
         frontTable = FrontTableObj.GetComponent<TableBehaviour>();
         nextTableInFront = false;
         scrollingTableList.Enqueue(FrontTableObj);
+
         counter = 0.0f;
-        dropTime = 2.0f;
+
+        dropTime01 = 2.0f; // regular drop
+        dropTime02 = 3.0f; // max of regular two-table drop
+        dropTime03 = 2.5f; // max of random ranged drop
+        
+        pattern2Toggle = true;
+        pattern3RandomTime = Random.Range(Constants.DROP_TIME_MIN, dropTime03);
+
+        dropPattern = 0;
     }
 
-    public void NextStage()
+    public void SpeedIncrease()
     {
-        dropTime -= 0.1f;
+        dropTime01 = (dropTime01 > Constants.DROP_TIME_MIN) ? dropTime01 - 0.15f: Constants.DROP_TIME_MIN;
+        dropTime02 = (dropTime02 > Constants.DROP_TIME_MIN * 2) ? dropTime02 - 0.20f : Constants.DROP_TIME_MIN * 2;
+        dropTime03 = (dropTime03 > Constants.DROP_TIME_MIN) ? dropTime03 - 0.25f : Constants.DROP_TIME_MIN;
+    }
+    public void PatternChange()
+    {
+        dropPattern = (dropPattern + 1) % 3;
     }
 
     public void CleanupFlippingTables()
@@ -62,25 +85,67 @@ public class TableController : MonoBehaviour {
                 Destroy(flippingTableList.Dequeue());
     }
 
+    void GetNextTable()
+    {
+        // If this one created is in the front of the line, get it's script
+        if (nextTableInFront)
+        {
+            frontTable = scrollingTableList.Peek().GetComponent<TableBehaviour>();
+            nextTableInFront = false;
+        }
+    }
+
     // use bool to return flip
     public bool OnFrame (float speed) {
 
-        counter += Time.deltaTime;
-        if(counter >= dropTime)
+        // Tables drop at regular increments
+        if(dropPattern == 0)
         {
-            scrollingTableList.Enqueue(Instantiate(table01, launchPos, Quaternion.identity) as GameObject);
-            counter = 0.0f;
-
-            // If this one created is in the front of the line, get it's script
-            if (nextTableInFront)
+            counter += Time.deltaTime;
+            if(counter >= dropTime01)
             {
-                frontTable = scrollingTableList.Peek().GetComponent<TableBehaviour>();
-                nextTableInFront = false;
+                scrollingTableList.Enqueue(Instantiate(table01, launchPos, Quaternion.identity) as GameObject);
+                counter = 0.0f;
+
+                GetNextTable();
+            }
+        }
+        // Tables drop in close pairs, but with a little further spread out
+        else if (dropPattern == 1)
+        {
+            counter += Time.deltaTime;
+            if(counter >= dropTime02)
+            {
+                scrollingTableList.Enqueue(Instantiate(table01, launchPos, Quaternion.identity) as GameObject);
+                counter = 0.0f;
+                pattern2Toggle = true;
+
+                GetNextTable();
+            }
+            else if(counter >= dropTime02 - Constants.DROP_TIME_MIN && pattern2Toggle)
+            {
+                scrollingTableList.Enqueue(Instantiate(table01, launchPos, Quaternion.identity) as GameObject);
+                pattern2Toggle = false;
+
+                GetNextTable();
+            }
+        }
+        // Tables drop with controlled randomness
+        else
+        {
+            counter += Time.deltaTime;
+            if (counter >= pattern3RandomTime)
+            {
+                scrollingTableList.Enqueue(Instantiate(table01, launchPos, Quaternion.identity) as GameObject);
+                counter = 0.0f;
+                pattern3RandomTime = Random.Range(Constants.DROP_TIME_MIN, dropTime03);
+
+                GetNextTable();
             }
         }
 
         // translate tables
-        foreach(GameObject table in scrollingTableList)
+        foreach (GameObject table in scrollingTableList)
             table.transform.Translate(speed * Time.deltaTime, 0.0f, 0.0f);
 
         CleanupFlippingTables();
