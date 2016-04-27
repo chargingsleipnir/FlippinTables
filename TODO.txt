@@ -1,0 +1,4 @@
+- Make some varying/cycling challenge increases. (Maybe mix the various options below)
+-- Move faster
+-- Tables coming in patterns
+-- Table drops given degree of randomization
