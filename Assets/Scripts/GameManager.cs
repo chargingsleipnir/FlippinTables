@@ -3,7 +3,9 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
-    bool startRun;
+    public enum GameStates { prePlay, play, gameover, menu }
+    public static GameStates gameState;
+
     int tablesFlipped;
     int highScore = 0;
     bool endRun;
@@ -34,7 +36,7 @@ public class GameManager : MonoBehaviour {
 
     void Reset ()
     {
-        startRun = false;
+        gameState = GameStates.prePlay;
         tablesFlipped = 0;
         speed = 6.5f;
 
@@ -45,32 +47,34 @@ public class GameManager : MonoBehaviour {
     }
 
 	void Update () {
-        if (startRun)
+        switch (gameState)
         {
-            // update backgrounds
-            bgCtrl.OnFrame(speed);
+            case GameStates.prePlay:
+                if (player.OnPlay())
+                {
+                    gameState = GameStates.play;
+                }
+                break;
+            case GameStates.play:
+                // update backgrounds
+                bgCtrl.OnFrame(speed);
 
-            // Returns table flip
-            if(tbCtrl.OnFrame(speed))
-            {
-                OnFlip();
-            }
+                // Returns table flip
+                if (tbCtrl.OnFrame(speed))
+                    OnFlip();
 
-            // Returns player-table impact
-            if(player.OnFrame())
-            {
-                //gameover
-                player.HitTable();
+                player.OnPlay();
+                gameState = player.AffectGameState();            
+                break;
+            case GameStates.gameover:
+                tbCtrl.CleanupFlippingTables();
+                player.OnGameOver();
+                gameState = player.AffectGameState();
+                break;
+            case GameStates.menu:
+                // lose menu in here, tap to continue.
                 Reset();
-            }
-        }
-        else
-        {
-            if(Input.GetMouseButtonDown(0))
-            {
-                startRun = true;
-                player.FlipFirstTable();
-            }
+                break;
         }
 	}
 
@@ -84,6 +88,13 @@ public class GameManager : MonoBehaviour {
             guiCtrl.UpdateHighScore(highScore);
         }
 
-        // If flips hits a certain number, increase speeds,flip force, etc.
+        // If flips hits a certain number, increase speeds, flip force, etc.
+
+        if (tablesFlipped % 5 == 0)
+        {
+            speed += 0.5f;
+            tbCtrl.NextStage();
+            player.NextStage();
+        }
     }
 }

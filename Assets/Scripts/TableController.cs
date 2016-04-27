@@ -15,7 +15,7 @@ public class TableController : MonoBehaviour {
     bool nextTableInFront;
     Queue<GameObject> flippingTableList;
 
-    const float DROP_TIME = 2.0f;
+    float dropTime = 2.0f;
     float counter;
 
     public void OnLoad()
@@ -45,13 +45,28 @@ public class TableController : MonoBehaviour {
         nextTableInFront = false;
         scrollingTableList.Enqueue(FrontTableObj);
         counter = 0.0f;
+        dropTime = 2.0f;
     }
-	
+
+    public void NextStage()
+    {
+        dropTime -= 0.1f;
+    }
+
+    public void CleanupFlippingTables()
+    {
+        // Queue.Peek() will throw an error if there's no object to peek at, so this check is required.
+        // Just a check to eliminate those off the screen.
+        if (flippingTableList.Count > 0)
+            if (flippingTableList.Peek().transform.position.y < Constants.DROP_OFF_LIMIT)
+                Destroy(flippingTableList.Dequeue());
+    }
+
     // use bool to return flip
-	public bool OnFrame (float speed) {
+    public bool OnFrame (float speed) {
 
         counter += Time.deltaTime;
-        if(counter >= DROP_TIME)
+        if(counter >= dropTime)
         {
             scrollingTableList.Enqueue(Instantiate(table01, launchPos, Quaternion.identity) as GameObject);
             counter = 0.0f;
@@ -68,12 +83,7 @@ public class TableController : MonoBehaviour {
         foreach(GameObject table in scrollingTableList)
             table.transform.Translate(speed * Time.deltaTime, 0.0f, 0.0f);
 
-
-        // Queue.Peek() will throw an error if there's no object to peek at, so this check is required.
-        // Just a check to eliminate those off the screen.
-        if (flippingTableList.Count > 0)
-            if (flippingTableList.Peek().transform.position.y < -5.0f)
-                Destroy(flippingTableList.Dequeue());
+        CleanupFlippingTables();
 
         // If there's at least 2, the next in line will be the front table
         if (scrollingTableList.Count > 1)
