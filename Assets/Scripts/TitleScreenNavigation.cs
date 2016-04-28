@@ -4,14 +4,21 @@ using System.Collections;
 
 public class TitleScreenNavigation : MonoBehaviour {
 
+    AudioSource audio;
+
 	void Start () {
-	
+        audio = GetComponent<AudioSource>();
 	}
-	
-	void Update () {
-        if (Input.GetMouseButtonDown(0))
-        {
-            SceneManager.LoadScene(1);
-        }
-	}
+
+    public void StartGame()
+    {
+        StartCoroutine(NextScene());
+    }
+
+    IEnumerator NextScene()
+    {
+        audio.Play();
+        yield return new WaitForSeconds(audio.clip.length);
+        SceneManager.LoadScene(1);
+    }
 }
