@@ -12,7 +12,8 @@ public class GameManager : MonoBehaviour {
 
     BackgroundController bgCtrl;
     TableController tbCtrl;
-    GUIController guiCtrl;
+    InGameUIController guiCtrl;
+    public InGameUIActions guiActions;
 
     public GameObject playerObj;
     Player player;
@@ -23,7 +24,7 @@ public class GameManager : MonoBehaviour {
     void Start () {
         bgCtrl = GetComponent<BackgroundController>();
         tbCtrl = GetComponent<TableController>();
-        guiCtrl = GetComponent<GUIController>();
+        guiCtrl = GetComponent<InGameUIController>();
 
         // Make sure to incorporate SCALE!!!
         player = playerObj.GetComponent<Player>();
@@ -34,7 +35,7 @@ public class GameManager : MonoBehaviour {
         Reset();
 	}
 
-    void Reset ()
+    public void Reset ()
     {
         gameState = GameStates.prePlay;
         tablesFlipped = 0;
@@ -44,15 +45,19 @@ public class GameManager : MonoBehaviour {
         player.Reset();
         tbCtrl.Reset();
         guiCtrl.Reset();
+        guiActions.Reset();
     }
 
 	void Update () {
         switch (gameState)
         {
             case GameStates.prePlay:
-                if (player.OnPlay())
+                if (guiActions.CheckBlinkerIsOpen())
                 {
-                    gameState = GameStates.play;
+                    if (player.OnPlay())
+                    {
+                        gameState = GameStates.play;
+                    }
                 }
                 break;
             case GameStates.play:
@@ -68,12 +73,14 @@ public class GameManager : MonoBehaviour {
                 break;
             case GameStates.gameover:
                 tbCtrl.CleanupFlippingTables();
+                // This will allow the player to see the exit menu after just a short time, or if the tap right away,
+                // without necessarily having to wait for the player to fall to a certain point.
+                if(player.EarlyExit())
+                    guiActions.ActivateGameOverMenu();
+
+                // This will shut off the players motion and exit this state if a certain fall distance is reached.
                 player.OnGameOver();
                 gameState = player.AffectGameState();
-                break;
-            case GameStates.menu:
-                // lose menu in here, tap to continue.
-                Reset();
                 break;
         }
 	}
@@ -85,7 +92,7 @@ public class GameManager : MonoBehaviour {
         if (tablesFlipped > highScore)
         {
             highScore = tablesFlipped;
-            guiCtrl.UpdateHighScore(highScore);
+            guiCtrl.UpdateEndGameResults(tablesFlipped, highScore, 3); // 3 NOT REALLY A THING, JUST A PLACEHOLDER
         }
 
         // If flips hits a certain number, increase speeds, flip force, etc.

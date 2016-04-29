@@ -20,6 +20,9 @@ public class Player : MonoBehaviour {
 
     Vector3 startPos;
 
+    float exitTimer = 0.0f;
+    bool exitMenuUp;
+
     // This needed to be "Awake" to avoid some null object references -> the components in the "Reset" function
     void Awake () {
         anim = GetComponent<Animator>();
@@ -50,6 +53,9 @@ public class Player : MonoBehaviour {
         torque = 100.0f;
         impactForce.Set(100.0f, 100.0f);
         anim.speed = 1.0f;
+
+        exitTimer = 0.0f;
+        exitMenuUp = false;
     }
 
     public void SpeedIncrease()
@@ -74,14 +80,27 @@ public class Player : MonoBehaviour {
     }
     public void OnGameOver()
     {
-        // Give player the option to just tap through it quickly
-        if (transform.position.y < Constants.DROP_OFF_LIMIT || Input.GetMouseButtonDown(0))
+        if (transform.position.y < Constants.DROP_OFF_LIMIT)
         {
             gameState = GameManager.GameStates.menu;
             rb2D.isKinematic = true;
             rb2D.gravityScale = 0.0f;
             rb2D.velocity.Set(0.0f, 0.0f);
         }
+    }
+    public bool EarlyExit()
+    {
+        if (exitMenuUp == false)
+        {
+            exitTimer += Time.deltaTime;
+
+            if (exitTimer >= Constants.EARLY_EXIT_TIME || Input.GetMouseButtonDown(0))
+            {
+                exitTimer = 0.0f;
+                return exitMenuUp = true;
+            }
+        }
+        return false;
     }
 
     public void HitTable()
