@@ -82,7 +82,7 @@ public class Player : MonoBehaviour {
     {
         if (transform.position.y < Constants.DROP_OFF_LIMIT)
         {
-            gameState = GameManager.GameStates.menu;
+            gameState = GameManager.GameStates.none;
             rb2D.isKinematic = true;
             rb2D.gravityScale = 0.0f;
             rb2D.velocity.Set(0.0f, 0.0f);

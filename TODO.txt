@@ -1,9 +1,5 @@
 TODO
 - Put slower moving skyscraper art in BG
-- Put 50% alpha black/grey screen in front of game when gameover menu comes up.
-- Speed up transitions
-- Include transition on retry?
-- Bring in Steph's newly shaded art.
 - Deanna to do more facial expressions and art pieces.
 - Get "options" and "extras" menus happening.
 - Include some other fleeing office workers? (Could take a bit of work...)
@@ -12,7 +8,5 @@ TODO
 
 BUGS
 
-- Some gui elements (transitions) not resizing with screen.
 - Retry button stays in it's "clicked" colour
-- Gameover menu text not accurate after 1st try.
 - Figure out those button-related warnings if possible...

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 2bbef8c60950b3947bcfe9eb16db3f06
-timeCreated: 1461421473
+timeCreated: 1461975623
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -66,225 +66,221 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 512
-        height: 512
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -50, y: -48}
-        - {x: -32, y: -73}
-        - {x: 14, y: -73}
-        - {x: 24, y: -70}
-        - {x: 24, y: -28}
-        - {x: 5, y: 59}
-        - {x: -21, y: 65}
-        - {x: -39, y: 65}
-        - {x: -50, y: 61}
+      - - {x: -3, y: 46}
+        - {x: -38, y: 46}
+        - {x: -38, y: -34}
+        - {x: -30, y: -51}
+        - {x: 17, y: -51}
+        - {x: 17, y: -4}
+        - {x: 5, y: 36}
     - name: PlayerFlip_1
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -36, y: 53}
+        - {x: -36, y: -37}
+        - {x: -30, y: -51}
+        - {x: 16, y: -51}
+        - {x: 16, y: 16}
+        - {x: 15, y: 46}
+        - {x: -3, y: 53}
+    - name: PlayerFlip_2
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31, y: 60}
+        - {x: -38, y: 41}
+        - {x: -38, y: -19}
+        - {x: -18, y: -47}
+        - {x: 19, y: -47}
+        - {x: 24, y: -44}
+        - {x: 24, y: 51}
+        - {x: 2, y: 60}
+    - name: PlayerFlip_3
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -33, y: 61}
+        - {x: -37, y: 54}
+        - {x: -37, y: -13}
+        - {x: -11, y: -45}
+        - {x: 15, y: -45}
+        - {x: 24, y: -41}
+        - {x: 24, y: 47}
+        - {x: 15, y: 61}
+    - name: PlayerFlip_4
       rect:
         serializedVersion: 2
         x: 512
         y: 0
-        width: 512
-        height: 512
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -48, y: -44}
-        - {x: -31, y: -73}
-        - {x: 23, y: -73}
-        - {x: 23, y: -45}
-        - {x: 11, y: 64}
-        - {x: -15, y: 76}
-        - {x: -48, y: 76}
-    - name: PlayerFlip_2
+      - - {x: -21, y: 63}
+        - {x: -35, y: 49}
+        - {x: -35, y: -5}
+        - {x: -19, y: -43}
+        - {x: 21, y: -43}
+        - {x: 24, y: -41}
+        - {x: 24, y: 7}
+        - {x: 18, y: 54}
+        - {x: 8, y: 63}
+    - name: PlayerFlip_5
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 12, y: 64}
+        - {x: -21, y: 64}
+        - {x: -29, y: 46}
+        - {x: -29, y: 13}
+        - {x: -15, y: -27}
+        - {x: -8, y: -41}
+        - {x: 14, y: -41}
+        - {x: 24, y: -37}
+        - {x: 24, y: 48}
+        - {x: 15, y: 63}
+    - name: PlayerFlip_6
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -21, y: 64}
+        - {x: -22, y: 63}
+        - {x: -29, y: 46}
+        - {x: -29, y: 14}
+        - {x: -15, y: -27}
+        - {x: -8, y: -41}
+        - {x: 16, y: -41}
+        - {x: 24, y: -38}
+        - {x: 24, y: 14}
+        - {x: 18, y: 59}
+        - {x: 3, y: 64}
+    - name: PlayerFlip_7
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 21, y: 20}
+        - {x: 24, y: 54}
+        - {x: 2, y: 64}
+        - {x: -32, y: 64}
+        - {x: -35, y: 56}
+        - {x: -35, y: 1}
+        - {x: -24, y: -35}
+        - {x: -6, y: -43}
+        - {x: 22, y: -43}
+        - {x: 24, y: -36}
+        - {x: 24, y: -29}
+        - {x: 12, y: -20}
+    - name: PlayerFlip_8
       rect:
         serializedVersion: 2
         x: 1024
         y: 0
-        width: 512
-        height: 512
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -34, y: 86}
-        - {x: -54, y: 8}
-        - {x: -54, y: 2}
-        - {x: -40, y: -7}
-        - {x: -20, y: -48}
-        - {x: -10, y: -68}
-        - {x: 31, y: -68}
-        - {x: 35, y: -63}
-        - {x: 35, y: 65}
-        - {x: 32, y: 86}
-    - name: PlayerFlip_3
-      rect:
-        serializedVersion: 2
-        x: 1536
-        y: 0
-        width: 512
-        height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -36, y: 89}
-        - {x: -52, y: 51}
-        - {x: -52, y: 8}
-        - {x: -7, y: -65}
-        - {x: 17, y: -65}
-        - {x: 25, y: -63}
-        - {x: 35, y: -58}
-        - {x: 35, y: 70}
-        - {x: 26, y: 89}
-    - name: PlayerFlip_4
-      rect:
-        serializedVersion: 2
-        x: 2048
-        y: 0
-        width: 512
-        height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 18, y: -30}
-        - {x: 15, y: 21}
-        - {x: 13, y: 25}
-        - {x: 21, y: 29}
-        - {x: 27, y: 39}
-        - {x: 29, y: 79}
-        - {x: 5, y: 92}
-        - {x: -40, y: 92}
-        - {x: -49, y: 60}
-        - {x: -49, y: 2}
-        - {x: -20, y: -43}
-        - {x: -2, y: -62}
-        - {x: 5, y: -62}
-        - {x: 25, y: -60}
-        - {x: 35, y: -54}
-        - {x: 35, y: -38}
-    - name: PlayerFlip_5
-      rect:
-        serializedVersion: 2
-        x: 2560
-        y: 0
-        width: 512
-        height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -33, y: 93}
-        - {x: -40, y: 69}
-        - {x: -40, y: -5}
-        - {x: -32, y: -47}
-        - {x: -5, y: -59}
-        - {x: 35, y: -59}
-        - {x: 35, y: 80}
-        - {x: 31, y: 93}
-    - name: PlayerFlip_6
-      rect:
-        serializedVersion: 2
-        x: 3072
-        y: 0
-        width: 512
-        height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 14, y: 93}
-        - {x: -31, y: 93}
-        - {x: -40, y: 69}
-        - {x: -40, y: 9}
-        - {x: -11, y: -59}
-        - {x: 29, y: -59}
-        - {x: 35, y: -49}
-        - {x: 35, y: 46}
-        - {x: 33, y: 84}
-    - name: PlayerFlip_7
-      rect:
-        serializedVersion: 2
-        x: 3584
-        y: 0
-        width: 512
-        height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 14, y: 25}
-        - {x: 12, y: 27}
-        - {x: 25, y: 28}
-        - {x: 31, y: 47}
-        - {x: 31, y: 80}
-        - {x: 9, y: 92}
-        - {x: -49, y: 92}
-        - {x: -49, y: -62}
-        - {x: 27, y: -62}
-        - {x: 36, y: -55}
-        - {x: 36, y: -42}
-        - {x: 29, y: -32}
-    - name: PlayerFlip_8
-      rect:
-        serializedVersion: 2
-        x: 4096
-        y: 0
-        width: 512
-        height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -36, y: 89}
-        - {x: -52, y: 62}
-        - {x: -52, y: -19}
-        - {x: -36, y: -57}
-        - {x: -18, y: -65}
-        - {x: 27, y: -65}
-        - {x: 36, y: -60}
-        - {x: 36, y: 75}
-        - {x: 17, y: 89}
+      - - {x: -33, y: 62}
+        - {x: -37, y: 52}
+        - {x: -37, y: -5}
+        - {x: -6, y: -45}
+        - {x: 19, y: -45}
+        - {x: 24, y: -43}
+        - {x: 24, y: 41}
+        - {x: 18, y: 62}
     - name: PlayerFlip_9
       rect:
         serializedVersion: 2
-        x: 4608
+        x: 1152
         y: 0
-        width: 512
-        height: 512
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -36, y: 86}
-        - {x: -53, y: 53}
-        - {x: -53, y: -37}
-        - {x: -37, y: -65}
-        - {x: -27, y: -68}
-        - {x: 36, y: -68}
-        - {x: 36, y: 77}
-        - {x: 16, y: 86}
+      - - {x: -22, y: 60}
+        - {x: -32, y: 44}
+        - {x: -38, y: 29}
+        - {x: -38, y: -16}
+        - {x: -11, y: -47}
+        - {x: 24, y: -47}
+        - {x: 24, y: 60}
     - name: PlayerFlip_10
       rect:
         serializedVersion: 2
-        x: 5120
+        x: 1280
         y: 0
-        width: 512
-        height: 512
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -47, y: 76}
-        - {x: -47, y: -73}
-        - {x: 11, y: -73}
-        - {x: 24, y: -66}
-        - {x: 24, y: 9}
-        - {x: 6, y: 76}
+      - - {x: -7, y: 53}
+        - {x: -31, y: 53}
+        - {x: -34, y: 52}
+        - {x: -34, y: -15}
+        - {x: -32, y: -16}
+        - {x: -17, y: -16}
+        - {x: -17, y: -44}
+        - {x: -14, y: -51}
+        - {x: 10, y: -51}
+        - {x: 16, y: -46}
+        - {x: 16, y: -4}
+        - {x: 6, y: 49}
     outline: []
   spritePackingTag: 
   userData: 

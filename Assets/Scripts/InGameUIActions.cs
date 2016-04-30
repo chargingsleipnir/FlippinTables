@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class InGameUIActions : MonoBehaviour {
@@ -27,6 +26,7 @@ public class InGameUIActions : MonoBehaviour {
 
         gameOverMenu = transform.GetChild(1).gameObject;
 
+
         Reset();
     }
 
@@ -43,8 +43,6 @@ public class InGameUIActions : MonoBehaviour {
     void BlinkerClosed()
     {
         blinkerOpen = false;
-        anim.SetTrigger(sceneChangeTrigHash);
-        SceneManager.LoadScene(0);
     }
 
     public bool CheckBlinkerIsOpen()
@@ -57,8 +55,18 @@ public class InGameUIActions : MonoBehaviour {
         gameOverMenu.SetActive(true);
     }
 
-    public void OnQuitBtn()
+    public void OpenBlinker()
+    {
+        anim.SetTrigger(openTrigHash);
+    }
+
+    public void CloseBlinker()
     {
         anim.SetTrigger(closeTrigHash);
+    }
+
+    public void EndSceneTrigger()
+    {
+        anim.SetTrigger(sceneChangeTrigHash);
     }
 }

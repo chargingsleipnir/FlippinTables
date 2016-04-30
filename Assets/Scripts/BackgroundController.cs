@@ -3,7 +3,8 @@ using System.Collections;
 
 public class BackgroundController : MonoBehaviour {
 
-    public GameObject bg01;
+    public GameObject bgLvl01_01;
+    public GameObject bgLvl02_01;
     float bg01Width;
 
     GameObject bgRight;
@@ -14,10 +15,10 @@ public class BackgroundController : MonoBehaviour {
 	public void OnLoad () {
         // Get needed UNIT width with the bounds property, multiplying by scale factor to be precise.
         //bg01.GetComponent<SpriteRenderer>().sprite.rect.width <-- in pixels
-        bg01Width = bg01.GetComponent<SpriteRenderer>().sprite.bounds.size.x * bg01.transform.localScale.x;
-        bgRight = Instantiate(bg01) as GameObject;
+        bg01Width = bgLvl01_01.GetComponent<SpriteRenderer>().sprite.bounds.size.x * bgLvl01_01.transform.localScale.x;
+        bgRight = Instantiate(bgLvl01_01) as GameObject;
         bgLeftPos = new Vector3();
-        bgLeft = Instantiate(bg01) as GameObject;
+        bgLeft = Instantiate(bgLvl01_01) as GameObject;
         Reset();
     }
 	

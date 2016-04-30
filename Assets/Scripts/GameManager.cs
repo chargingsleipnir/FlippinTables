@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
-    public enum GameStates { prePlay, play, gameover, menu }
+    public enum GameStates { prePlay, play, gameover, replay, exit, none }
     public static GameStates gameState;
 
     int tablesFlipped;
@@ -75,12 +76,30 @@ public class GameManager : MonoBehaviour {
                 tbCtrl.CleanupFlippingTables();
                 // This will allow the player to see the exit menu after just a short time, or if the tap right away,
                 // without necessarily having to wait for the player to fall to a certain point.
-                if(player.EarlyExit())
+                if (player.EarlyExit())
+                {
+                    guiCtrl.UpdateEndGameResults(tablesFlipped, highScore, 3); // 3 NOT REALLY A THING, JUST A PLACEHOLDER
                     guiActions.ActivateGameOverMenu();
+                }
 
                 // This will shut off the players motion and exit this state if a certain fall distance is reached.
                 player.OnGameOver();
                 gameState = player.AffectGameState();
+                break;
+            case GameStates.replay:
+                if (!guiActions.CheckBlinkerIsOpen())
+                {
+                    Reset();
+                    guiActions.OpenBlinker();
+                }
+                break;
+            case GameStates.exit:
+                if (!guiActions.CheckBlinkerIsOpen())
+                {
+                    Reset();
+                    guiActions.EndSceneTrigger();
+                    SceneManager.LoadScene(0);
+                }
                 break;
         }
 	}
@@ -92,8 +111,8 @@ public class GameManager : MonoBehaviour {
         if (tablesFlipped > highScore)
         {
             highScore = tablesFlipped;
-            guiCtrl.UpdateEndGameResults(tablesFlipped, highScore, 3); // 3 NOT REALLY A THING, JUST A PLACEHOLDER
         }
+
 
         // If flips hits a certain number, increase speeds, flip force, etc.
 
@@ -106,6 +125,23 @@ public class GameManager : MonoBehaviour {
             speed += 0.5f;
             tbCtrl.SpeedIncrease();
             player.SpeedIncrease();
+        }
+    }
+
+    public void PostGame(int replayOption)
+    {
+        guiActions.CloseBlinker();
+
+        switch(replayOption)
+        {
+            case 0:
+                // quit (assigned in editor, btn OnClick())
+                gameState = GameStates.exit;
+                break;
+            case 1:
+                // replay (assigned in editor, btn OnClick())
+                gameState = GameStates.replay;
+                break;
         }
     }
 }
