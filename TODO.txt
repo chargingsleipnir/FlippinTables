@@ -1,5 +1,4 @@
 TODO
-- Put slower moving skyscraper art in BG
 - Deanna to do more facial expressions and art pieces.
 - Get "options" and "extras" menus happening.
 - Include some other fleeing office workers? (Could take a bit of work...)
@@ -8,5 +7,7 @@ TODO
 
 BUGS
 
+- Background colours are different.
+- Shading across all art is off, Steph to fix character.
 - Retry button stays in it's "clicked" colour
 - Figure out those button-related warnings if possible...
