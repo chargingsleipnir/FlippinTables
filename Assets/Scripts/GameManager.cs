@@ -13,8 +13,7 @@ public class GameManager : MonoBehaviour {
 
     BackgroundController bgCtrl;
     TableController tbCtrl;
-    InGameUIController guiCtrl;
-    public InGameUIActions guiActions;
+    public InGameUIController guiCtrl;
 
     public GameObject playerObj;
     Player player;
@@ -25,7 +24,6 @@ public class GameManager : MonoBehaviour {
     void Start () {
         bgCtrl = GetComponent<BackgroundController>();
         tbCtrl = GetComponent<TableController>();
-        guiCtrl = GetComponent<InGameUIController>();
 
         // Make sure to incorporate SCALE!!!
         player = playerObj.GetComponent<Player>();
@@ -46,14 +44,13 @@ public class GameManager : MonoBehaviour {
         player.Reset();
         tbCtrl.Reset();
         guiCtrl.Reset();
-        guiActions.Reset();
     }
 
 	void Update () {
         switch (gameState)
         {
             case GameStates.prePlay:
-                if (guiActions.CheckBlinkerIsOpen())
+                if (guiCtrl.CheckBlinkerOpen())
                 {
                     if (player.OnPlay())
                     {
@@ -79,7 +76,7 @@ public class GameManager : MonoBehaviour {
                 if (player.EarlyExit())
                 {
                     guiCtrl.UpdateEndGameResults(tablesFlipped, highScore, 3); // 3 NOT REALLY A THING, JUST A PLACEHOLDER
-                    guiActions.ActivateGameOverMenu();
+                    guiCtrl.ActivateGameOverMenu();
                 }
 
                 // This will shut off the players motion and exit this state if a certain fall distance is reached.
@@ -87,17 +84,17 @@ public class GameManager : MonoBehaviour {
                 gameState = player.AffectGameState();
                 break;
             case GameStates.replay:
-                if (!guiActions.CheckBlinkerIsOpen())
+                if (!guiCtrl.CheckBlinkerOpen())
                 {
                     Reset();
-                    guiActions.OpenBlinker();
+                    guiCtrl.OpenBlinker();
                 }
                 break;
             case GameStates.exit:
-                if (!guiActions.CheckBlinkerIsOpen())
+                if (!guiCtrl.CheckBlinkerOpen())
                 {
                     Reset();
-                    guiActions.EndSceneTrigger();
+                    guiCtrl.EndScene();
                     SceneManager.LoadScene(0);
                 }
                 break;
@@ -130,7 +127,7 @@ public class GameManager : MonoBehaviour {
 
     public void PostGame(int replayOption)
     {
-        guiActions.CloseBlinker();
+        guiCtrl.CloseBlinker();
 
         switch(replayOption)
         {
