@@ -21,9 +21,13 @@ public class GameManager : MonoBehaviour {
 
     float speed;
 
+	AudioSource music;
+
     void Start () {
         bgCtrl = GetComponent<BackgroundController>();
         tbCtrl = GetComponent<TableController>();
+		music = GetComponent<AudioSource> ();
+		music.loop = true;
 
         // Make sure to incorporate SCALE!!!
         player = playerObj.GetComponent<Player>();
@@ -39,6 +43,7 @@ public class GameManager : MonoBehaviour {
         gameState = GameStates.prePlay;
         tablesFlipped = 0;
         speed = 6.5f;
+		music.volume = 1.0f;
 
         bgCtrl.Reset();
         player.Reset();
@@ -55,6 +60,7 @@ public class GameManager : MonoBehaviour {
                     if (player.OnPlay())
                     {
                         gameState = GameStates.play;
+						music.Play ();
                     }
                 }
                 break;
@@ -77,13 +83,15 @@ public class GameManager : MonoBehaviour {
                 {
                     guiCtrl.UpdateEndGameResults(tablesFlipped, highScore, 3); // 3 NOT REALLY A THING, JUST A PLACEHOLDER
                     guiCtrl.ActivateGameOverMenu();
+					music.volume = 0.25f;
                 }
 
                 // This will shut off the players motion and exit this state if a certain fall distance is reached.
                 player.OnGameOver();
                 gameState = player.AffectGameState();
                 break;
-            case GameStates.replay:
+			case GameStates.replay:
+				music.Stop ();
                 if (!guiCtrl.CheckBlinkerOpen())
                 {
                     Reset();
@@ -91,6 +99,7 @@ public class GameManager : MonoBehaviour {
                 }
                 break;
             case GameStates.exit:
+				music.Stop ();
                 if (!guiCtrl.CheckBlinkerOpen())
                 {
                     Reset();

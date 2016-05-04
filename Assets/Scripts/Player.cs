@@ -23,12 +23,18 @@ public class Player : MonoBehaviour {
     float exitTimer = 0.0f;
     bool exitMenuUp;
 
+	AudioSource audio;
+	public AudioClip soundFlip;
+	public AudioClip soundFootsteps;
+	public AudioClip soundImpact;
+
     // This needed to be "Awake" to avoid some null object references -> the components in the "Reset" function
     void Awake () {
         anim = GetComponent<Animator>();
         boxColl = GetComponent<BoxCollider2D>();
         circColl = GetComponent<CircleCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
+		audio = GetComponent<AudioSource> ();
 
         flipForce = new Vector2();
 
@@ -74,6 +80,9 @@ public class Player : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             anim.SetInteger(stateHash, (int)AnimStates.flip);
+			audio.clip = soundFlip;
+			audio.loop = false;
+			audio.Play ();
             return true;
         }
         return false;
@@ -110,7 +119,16 @@ public class Player : MonoBehaviour {
         rb2D.isKinematic = false;
         rb2D.gravityScale = 1.0f;
         rb2D.AddForce(impactForce);
+		audio.clip = soundImpact;
+		audio.loop = false;
+		audio.Play ();
     }
+
+	void FlipLanded () {
+		audio.clip = soundFootsteps;
+		audio.loop = true;
+		audio.Play ();
+	}
 
     public GameManager.GameStates AffectGameState()
     {
