@@ -12,8 +12,12 @@ public class TitleScreenNavigation : MonoBehaviour {
 
     Button[] uiButtons;
 
+	AudioSource audio;
+	public AudioClip music;
+
 	void Start () {
         blinker = GetComponent<BlinkerController>();
+		audio = GetComponent<AudioSource> ();
 
         uiButtons = GetComponentsInChildren<Button>();
 
@@ -25,33 +29,36 @@ public class TitleScreenNavigation : MonoBehaviour {
     {
         switch (state)
         {
-            case TitleScreenState.none:
-                blinker.Open();
-                state = TitleScreenState.transitioningIn;
-                break;
-            case TitleScreenState.transitioningIn:
-                if (blinker.CheckOpen())
-                {
-                    foreach (Button button in uiButtons)
-                        button.interactable = true;
+        case TitleScreenState.none:
+            blinker.Open();
+            state = TitleScreenState.transitioningIn;
+            break;
+        case TitleScreenState.transitioningIn:
+            if (blinker.CheckOpen())
+            {
+                foreach (Button button in uiButtons)
+                    button.interactable = true;
 
-                    state = TitleScreenState.inMain;
-                }
-                break;
-            case TitleScreenState.inMain:
-                break;
-            case TitleScreenState.startingGame:
-                if(!blinker.CheckOpen())
-                {
-                    state = TitleScreenState.none;
-                    blinker.EndSceneTrigger();
-                    SceneManager.LoadScene(1);
-                }
-                break;
-            case TitleScreenState.inOptions:
-                break;
-            case TitleScreenState.inExtras:
-                break;
+				audio.clip = music;
+				audio.loop = true;
+				audio.Play ();
+                state = TitleScreenState.inMain;
+            }
+            break;
+        case TitleScreenState.inMain:
+            break;
+        case TitleScreenState.startingGame:
+            if(!blinker.CheckOpen())
+            {
+                state = TitleScreenState.none;
+                blinker.EndSceneTrigger();
+                SceneManager.LoadScene(1);
+            }
+            break;
+        case TitleScreenState.inOptions:
+            break;
+        case TitleScreenState.inExtras:
+            break;
         }
     }
 
@@ -59,6 +66,9 @@ public class TitleScreenNavigation : MonoBehaviour {
     {
         foreach (Button button in uiButtons)
             button.interactable = false;
+
+		audio.loop = false;
+		audio.Stop ();
     }
 
     public void OnPlayBtn()

@@ -54,59 +54,59 @@ public class GameManager : MonoBehaviour {
 	void Update () {
         switch (gameState)
         {
-            case GameStates.prePlay:
-                if (guiCtrl.CheckBlinkerOpen())
+        case GameStates.prePlay:
+            if (guiCtrl.CheckBlinkerOpen())
+            {
+                if (player.OnPlay())
                 {
-                    if (player.OnPlay())
-                    {
-                        gameState = GameStates.play;
-						music.Play ();
-                    }
+                    gameState = GameStates.play;
+					music.Play ();
                 }
-                break;
-            case GameStates.play:
-                // update backgrounds
-                bgCtrl.OnFrame(speed);
+            }
+            break;
+        case GameStates.play:
+            // update backgrounds
+            bgCtrl.OnFrame(speed);
 
-                // Returns table flip
-                if (tbCtrl.OnFrame(speed))
-                    OnFlip();
+            // Returns table flip
+            if (tbCtrl.OnFrame(speed))
+                OnFlip();
 
-                player.OnPlay();
-                gameState = player.AffectGameState();            
-                break;
-            case GameStates.gameover:
-                tbCtrl.CleanupFlippingTables();
-                // This will allow the player to see the exit menu after just a short time, or if the tap right away,
-                // without necessarily having to wait for the player to fall to a certain point.
-                if (player.EarlyExit())
-                {
-                    guiCtrl.UpdateEndGameResults(tablesFlipped, highScore, 3); // 3 NOT REALLY A THING, JUST A PLACEHOLDER
-                    guiCtrl.ActivateGameOverMenu();
-					music.volume = 0.25f;
-                }
+            player.OnPlay();
+            gameState = player.AffectGameState();            
+            break;
+        case GameStates.gameover:
+            tbCtrl.CleanupFlippingTables();
+            // This will allow the player to see the exit menu after just a short time, or if the tap right away,
+            // without necessarily having to wait for the player to fall to a certain point.
+            if (player.EarlyExit())
+            {
+                guiCtrl.UpdateEndGameResults(tablesFlipped, highScore, 3); // 3 NOT REALLY A THING, JUST A PLACEHOLDER
+                guiCtrl.ActivateGameOverMenu();
+				music.volume = 0.25f;
+            }
 
-                // This will shut off the players motion and exit this state if a certain fall distance is reached.
-                player.OnGameOver();
-                gameState = player.AffectGameState();
-                break;
-			case GameStates.replay:
-				music.Stop ();
-                if (!guiCtrl.CheckBlinkerOpen())
-                {
-                    Reset();
-                    guiCtrl.OpenBlinker();
-                }
-                break;
-            case GameStates.exit:
-				music.Stop ();
-                if (!guiCtrl.CheckBlinkerOpen())
-                {
-                    Reset();
-                    guiCtrl.EndScene();
-                    SceneManager.LoadScene(0);
-                }
-                break;
+            // This will shut off the players motion and exit this state if a certain fall distance is reached.
+            player.OnGameOver();
+            gameState = player.AffectGameState();
+            break;
+		case GameStates.replay:
+			music.Stop ();
+            if (!guiCtrl.CheckBlinkerOpen())
+            {
+                Reset();
+                guiCtrl.OpenBlinker();
+            }
+            break;
+        case GameStates.exit:
+			music.Stop ();
+            if (!guiCtrl.CheckBlinkerOpen())
+            {
+                Reset();
+                guiCtrl.EndScene();
+                SceneManager.LoadScene(0);
+            }
+            break;
         }
 	}
 
