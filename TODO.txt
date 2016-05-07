@@ -8,8 +8,7 @@ TODO
 
 BUGS
 
-- Background colours are different.
 - Shading across all art is off, Steph to fix character.
-- Retry button stays in it's "clicked" colour
+- Retry button stays in it's "clicked" colour (Done??)
 - Figure out those button-related warnings if possible...
 - Fix in game gui/game manager calls, as they are FUCKING AWFUL right now.
