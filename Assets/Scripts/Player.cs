@@ -12,6 +12,7 @@ public class Player : MonoBehaviour {
     Rigidbody2D rb2D;
 
     int stateHash = Animator.StringToHash("state");
+	int airbourneHash = Animator.StringToHash("isAirbourne");
 
     Vector2 flipForce;
     float torque;
@@ -80,9 +81,12 @@ public class Player : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             anim.SetInteger(stateHash, (int)AnimStates.flip);
-			audio.clip = soundFlip;
-			audio.loop = false;
-			audio.Play ();
+
+			if (!anim.GetBool (airbourneHash)) {
+				audio.clip = soundFlip;
+				audio.loop = false;
+				audio.Play ();
+			}
             return true;
         }
         return false;

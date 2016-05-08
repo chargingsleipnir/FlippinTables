@@ -7,7 +7,6 @@ public class TableController : MonoBehaviour {
     public GameObject table01;
     float table01HalfWidth; // 75% of this figure is currently being used as the "edge". This needs to be better controlled
     float tableWidthScalar = 1.5f;
-    Vector3 startPos;
     Vector3 launchPos;
 
     Queue<GameObject> scrollingTableList;
@@ -28,10 +27,11 @@ public class TableController : MonoBehaviour {
 
     public void OnLoad()
     {
-        table01HalfWidth = (table01.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.bounds.size.x * table01.transform.localScale.x) / 2.0f;
-        startPos = new Vector3(-(table01HalfWidth * tableWidthScalar), -2.5f, 0.0f);
+        table01HalfWidth = (table01.transform.GetComponent<SpriteRenderer>().sprite.bounds.size.x * table01.transform.localScale.x) / 2.0f;
 
-        launchPos = new Vector3(-12.0f, -2.5f, 0.0f);
+        launchPos = new Vector3();
+        launchPos = table01.transform.position;
+        launchPos.x = -12.0f;
         scrollingTableList = new Queue<GameObject>();
         flippingTableList = new Queue<GameObject>();
 
@@ -48,7 +48,7 @@ public class TableController : MonoBehaviour {
         scrollingTableList.Clear();
         flippingTableList.Clear();
 
-        GameObject FrontTableObj = Instantiate(table01, startPos, Quaternion.identity) as GameObject;
+        GameObject FrontTableObj = Instantiate(table01, table01.transform.position, Quaternion.identity) as GameObject;
         frontTable = FrontTableObj.GetComponent<TableBehaviour>();
         nextTableInFront = false;
         scrollingTableList.Enqueue(FrontTableObj);
