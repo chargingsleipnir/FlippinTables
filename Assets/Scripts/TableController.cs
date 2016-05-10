@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class TableController : MonoBehaviour {
 
-    public GameObject table01;
+    public GameObject[] tables;
     float table01HalfWidth; // 75% of this figure is currently being used as the "edge". This needs to be better controlled
     float tableWidthScalar = 1.5f;
     Vector3 launchPos;
@@ -25,13 +25,15 @@ public class TableController : MonoBehaviour {
 
     int dropPattern;
 
+    int randTableIdx;
+
     public void OnLoad()
     {
-        table01HalfWidth = (table01.transform.GetComponent<SpriteRenderer>().sprite.bounds.size.x * table01.transform.localScale.x) / 2.0f;
+        table01HalfWidth = (tables[0].transform.GetComponent<SpriteRenderer>().sprite.bounds.size.x * tables[0].transform.localScale.x) / 2.0f;
 
         launchPos = new Vector3();
-        launchPos = table01.transform.position;
-        launchPos.x = -12.0f;
+        launchPos = tables[0].transform.position;
+        launchPos.x = -10.0f;
         scrollingTableList = new Queue<GameObject>();
         flippingTableList = new Queue<GameObject>();
 
@@ -48,7 +50,9 @@ public class TableController : MonoBehaviour {
         scrollingTableList.Clear();
         flippingTableList.Clear();
 
-        GameObject FrontTableObj = Instantiate(table01, table01.transform.position, Quaternion.identity) as GameObject;
+        randTableIdx = Random.Range(0, tables.Length);
+
+        GameObject FrontTableObj = Instantiate(tables[randTableIdx], tables[randTableIdx].transform.position, Quaternion.identity) as GameObject;
         frontTable = FrontTableObj.GetComponent<TableBehaviour>();
         nextTableInFront = false;
         scrollingTableList.Enqueue(FrontTableObj);
@@ -81,12 +85,19 @@ public class TableController : MonoBehaviour {
         // Queue.Peek() will throw an error if there's no object to peek at, so this check is required.
         // Just a check to eliminate those off the screen.
         if (flippingTableList.Count > 0)
+        {
             if (flippingTableList.Peek().transform.position.y < Constants.DROP_OFF_LIMIT)
-                Destroy(flippingTableList.Dequeue());
+            {
+                GameObject deadTable = flippingTableList.Dequeue();
+                deadTable.GetComponent<TableBehaviour>().DestroyAll();
+            }
+        }
     }
 
     void GetNextTable()
     {
+        randTableIdx = Random.Range(0, tables.Length);
+
         // If this one created is in the front of the line, get it's script
         if (nextTableInFront)
         {
@@ -104,7 +115,7 @@ public class TableController : MonoBehaviour {
             counter += Time.deltaTime;
             if(counter >= dropTime01)
             {
-                scrollingTableList.Enqueue(Instantiate(table01, launchPos, Quaternion.identity) as GameObject);
+                scrollingTableList.Enqueue(Instantiate(tables[randTableIdx], launchPos, Quaternion.identity) as GameObject);
                 counter = 0.0f;
 
                 GetNextTable();
@@ -116,7 +127,7 @@ public class TableController : MonoBehaviour {
             counter += Time.deltaTime;
             if(counter >= dropTime02)
             {
-                scrollingTableList.Enqueue(Instantiate(table01, launchPos, Quaternion.identity) as GameObject);
+                scrollingTableList.Enqueue(Instantiate(tables[randTableIdx], launchPos, Quaternion.identity) as GameObject);
                 counter = 0.0f;
                 pattern2Toggle = true;
 
@@ -124,7 +135,7 @@ public class TableController : MonoBehaviour {
             }
             else if(counter >= dropTime02 - Constants.DROP_TIME_MIN && pattern2Toggle)
             {
-                scrollingTableList.Enqueue(Instantiate(table01, launchPos, Quaternion.identity) as GameObject);
+                scrollingTableList.Enqueue(Instantiate(tables[randTableIdx], launchPos, Quaternion.identity) as GameObject);
                 pattern2Toggle = false;
 
                 GetNextTable();
@@ -136,7 +147,7 @@ public class TableController : MonoBehaviour {
             counter += Time.deltaTime;
             if (counter >= pattern3RandomTime)
             {
-                scrollingTableList.Enqueue(Instantiate(table01, launchPos, Quaternion.identity) as GameObject);
+                scrollingTableList.Enqueue(Instantiate(tables[randTableIdx], launchPos, Quaternion.identity) as GameObject);
                 counter = 0.0f;
                 pattern3RandomTime = Random.Range(Constants.DROP_TIME_MIN, dropTime03);
 

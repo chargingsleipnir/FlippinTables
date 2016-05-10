@@ -56,8 +56,8 @@ public class Player : MonoBehaviour {
         rb2D.velocity.Set(0.0f, 0.0f);
         transform.position = startPos;
 
-        flipForce.Set(-300.0f, 600.0f);
-        torque = 100.0f;
+        flipForce.Set(-400.0f, 500.0f);
+        torque = 125.0f;
         impactForce.Set(100.0f, 100.0f);
         anim.speed = 1.0f;
 
@@ -69,7 +69,7 @@ public class Player : MonoBehaviour {
     {
         flipForce.x -= 30.0f;
         flipForce.y += 60.0f;
-        torque += 10.0f;
+        torque += 15.0f;
         impactForce.x += 10.0f;
         impactForce.y += 10.0f;
         anim.speed += 0.1f;
