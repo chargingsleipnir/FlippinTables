@@ -6,6 +6,9 @@ public class Player : MonoBehaviour {
     public enum AnimStates { idle, run, flip, impact }
     GameManager.GameStates gameState;
 
+    public enum FlipAccuracy { perf, good, meh, none }
+    FlipAccuracy flipAcc;
+
     Animator anim;
     BoxCollider2D boxColl;
     CircleCollider2D circColl;
@@ -30,6 +33,8 @@ public class Player : MonoBehaviour {
     public AudioClip soundFootsteps;
     float soundFootstepsPitch;
 
+    float flipAccDist; // Tested flip contact differences ranged from about 1.0f - 2.0f.
+
     // This needed to be "Awake" to avoid some null object references -> the components in the "Reset" function
     void Awake () {
         anim = GetComponent<Animator>();
@@ -50,6 +55,8 @@ public class Player : MonoBehaviour {
     public void Reset()
     {
         gameState = GameManager.GameStates.play;
+        flipAcc = FlipAccuracy.perf;
+
         anim.SetInteger(stateHash, (int)AnimStates.idle);
 
         rb2D.isKinematic = true;
@@ -147,6 +154,25 @@ public class Player : MonoBehaviour {
         return gameState;
     }
 
+    public FlipAccuracy GetFlipAccuracy()
+    {
+        return flipAcc;
+    }
+
+    void SetFlipAccuracy(float dist)
+    {
+        if (dist < 1.0 || dist > 2.0)
+            flipAcc = FlipAccuracy.none;
+        else if (dist < 1.2 || dist > 1.8)
+            flipAcc = FlipAccuracy.meh;
+        else if (dist < 1.4 || dist > 1.6)
+            flipAcc = FlipAccuracy.good;
+        else
+            flipAcc = FlipAccuracy.perf;
+
+        // Launch in-game flip accuracy message
+    }
+
     void OnTriggerEnter2D(Collider2D otherColl)
     {
         if(otherColl.tag == "Table")
@@ -154,6 +180,7 @@ public class Player : MonoBehaviour {
             if(circColl.IsTouching(otherColl))
             {
                 otherColl.gameObject.GetComponent<TableBehaviour>().Flip(flipForce, torque);
+                SetFlipAccuracy(transform.position.x - otherColl.transform.position.x);
             }
             else if(boxColl.IsTouching(otherColl))
             {

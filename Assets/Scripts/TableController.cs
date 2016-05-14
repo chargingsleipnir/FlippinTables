@@ -107,7 +107,7 @@ public class TableController : MonoBehaviour {
     }
 
     // use bool to return flip
-    public bool OnFrame (float speed) {
+    public void OnFrame (float speed) {
 
         // Tables drop at regular increments
         if(dropPattern == 0)
@@ -160,7 +160,10 @@ public class TableController : MonoBehaviour {
             table.transform.Translate(speed * Time.deltaTime, 0.0f, 0.0f);
 
         CleanupFlippingTables();
+    }
 
+    public bool CheckFlip()
+    {
         // If there's at least 2, the next in line will be the front table
         if (scrollingTableList.Count > 1)
         {
@@ -173,7 +176,7 @@ public class TableController : MonoBehaviour {
         }
         // If only 1, it'll be removed on impact, and the next created will be in front
         // Needs to evaluate for 1 so 0 doesn't come in here.
-        else if(scrollingTableList.Count == 1)
+        else if (scrollingTableList.Count == 1)
         {
             if (frontTable.CheckFlipped())
             {

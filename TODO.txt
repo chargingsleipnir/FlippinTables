@@ -4,7 +4,7 @@ TODO
 -- Other extras (purpose for combo counter) ("Good", "Excellent" flip system, might not be worth the trouble)
 - Audio (maybe replace flip sounds)
 - Ads.
-- Mobile device customization (icons)
+- Mobile device customization (icons - steph)
 
 BUGS
 

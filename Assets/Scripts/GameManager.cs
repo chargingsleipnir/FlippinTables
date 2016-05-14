@@ -7,8 +7,13 @@ public class GameManager : MonoBehaviour {
     public enum GameStates { prePlay, play, gameover, replay, exit, none }
     public static GameStates gameState;
 
-    int tablesFlipped;
-    int highScore = 0;
+    int
+        tablesFlipped,
+        highScore,
+        comboVal,
+        highComboThisRound,
+        highComboOverall;
+
     bool endRun;
 
     BackgroundController bgCtrl;
@@ -18,6 +23,7 @@ public class GameManager : MonoBehaviour {
     public GameObject playerObj;
     Player player;
     float playerWidth;
+    Player.FlipAccuracy prevFlipAcc;
 
     float speed;
 
@@ -31,6 +37,10 @@ public class GameManager : MonoBehaviour {
 
         // Make sure to incorporate SCALE!!!
         player = playerObj.GetComponent<Player>();
+        prevFlipAcc = Player.FlipAccuracy.none;
+
+        highScore = 0;
+        highComboOverall = 0;
 
         bgCtrl.OnLoad();
         tbCtrl.OnLoad();
@@ -42,6 +52,8 @@ public class GameManager : MonoBehaviour {
     {
         gameState = GameStates.prePlay;
         tablesFlipped = 0;
+        comboVal = 0;
+        highComboThisRound = 0;
         speed = 6.5f;
 		music.volume = 1.0f;
 
@@ -69,8 +81,12 @@ public class GameManager : MonoBehaviour {
             bgCtrl.OnFrame(speed);
 
             // Returns table flip
-            if (tbCtrl.OnFrame(speed))
-                OnFlip();
+            tbCtrl.OnFrame(speed);
+                
+            if (tbCtrl.CheckFlip())
+            {
+                OnFlip(player.GetFlipAccuracy());
+            }
 
             player.OnPlay();
             gameState = player.AffectGameState();            
@@ -81,7 +97,7 @@ public class GameManager : MonoBehaviour {
             // without necessarily having to wait for the player to fall to a certain point.
             if (player.EarlyExit())
             {
-                guiCtrl.UpdateEndGameResults(tablesFlipped, highScore, 3); // 3 NOT REALLY A THING, JUST A PLACEHOLDER
+                guiCtrl.UpdateEndGameResults(tablesFlipped, highScore, highComboThisRound, highComboOverall); // 3 NOT REALLY A THING, JUST A PLACEHOLDER
                 guiCtrl.ActivateGameOverMenu();
 				music.volume = 0.25f;
             }
@@ -110,13 +126,25 @@ public class GameManager : MonoBehaviour {
         }
 	}
 
-    void OnFlip()
+    void OnFlip(Player.FlipAccuracy flipAcc)
     {
         tablesFlipped++;
-        guiCtrl.UpdateTableFlipCount(tablesFlipped);
+        UpdateComboVal(flipAcc);
+
+        guiCtrl.UpdateHUD(tablesFlipped, comboVal);
+
+        // Track high scores
         if (tablesFlipped > highScore)
         {
             highScore = tablesFlipped;
+        }
+        if(comboVal > highComboThisRound)
+        {
+            highComboThisRound = comboVal;
+            if (highComboThisRound > highComboOverall)
+            {
+                highComboOverall = highComboThisRound;
+            }
         }
 
         // If flips hits a certain number, increase speeds, flip force, etc.
@@ -131,6 +159,16 @@ public class GameManager : MonoBehaviour {
             tbCtrl.SpeedIncrease();
             player.SpeedIncrease();
         }
+    }
+
+    void UpdateComboVal(Player.FlipAccuracy flipAcc)
+    {
+        if (flipAcc == prevFlipAcc && flipAcc == Player.FlipAccuracy.perf)
+            comboVal++;
+        else
+            comboVal = 1;
+
+        prevFlipAcc = flipAcc;
     }
 
     public void PostGame(int replayOption)

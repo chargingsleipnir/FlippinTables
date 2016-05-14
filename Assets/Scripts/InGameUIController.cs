@@ -5,11 +5,16 @@ using System.Collections;
 public class InGameUIController : MonoBehaviour {
 
     BlinkerController blinker;
+
     public GameObject gameOverMenu;
+
     public Text tablesflippedTextInGame;
     public Text tablesflippedTextFinal;
     public Text highScoreText;
-    public Text comboText;
+
+    public Text comboTextInGame;
+    public Text comboTextFinal;
+    public Text highComboText;
 
     void Start()
     {
@@ -18,23 +23,25 @@ public class InGameUIController : MonoBehaviour {
         blinker.Open();
     }
 
-    public void UpdateTableFlipCount(int flipCount)
+    public void UpdateHUD(int flipCount, int comboVal)
     {
         tablesflippedTextInGame.text = flipCount.ToString();
+        comboTextInGame.text = comboVal.ToString();
     }
-    public void UpdateEndGameResults(int flipCount, int highScore, int comboReached)
+    public void UpdateEndGameResults(int flipCount, int highScore, int highComboRound, int highComboOverall)
     {
-        tablesflippedTextInGame.text = flipCount.ToString();
         tablesflippedTextFinal.text = flipCount.ToString();
         highScoreText.text = highScore.ToString();
-        comboText.text = comboReached.ToString();
+        comboTextFinal.text = highComboRound.ToString();
+        highComboText.text = highComboOverall.ToString();
     }
 
     public void Reset()
     {
         tablesflippedTextInGame.text =
         tablesflippedTextFinal.text =
-        comboText.text = "0";
+        comboTextInGame.text =
+        comboTextFinal.text = "0";
         gameOverMenu.SetActive(false);
     }
 
