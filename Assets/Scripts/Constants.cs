@@ -8,4 +8,5 @@ public class Constants : MonoBehaviour {
     public const float MAX_ADD_FORCE_X = -200.0f;
     public const float RANGE_FORCE_Y = 200.0f;
     public const float RANGE_TORQUE = 50.0f;
+    public const float TABLE_LAUNCH_X = -20.0f;
 }

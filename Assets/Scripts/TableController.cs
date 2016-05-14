@@ -33,7 +33,7 @@ public class TableController : MonoBehaviour {
 
         launchPos = new Vector3();
         launchPos = tables[0].transform.position;
-        launchPos.x = -10.0f;
+        launchPos.x = Constants.TABLE_LAUNCH_X;
         scrollingTableList = new Queue<GameObject>();
         flippingTableList = new Queue<GameObject>();
 
@@ -50,14 +50,18 @@ public class TableController : MonoBehaviour {
         scrollingTableList.Clear();
         flippingTableList.Clear();
 
+        // First table, right in front of player
         randTableIdx = Random.Range(0, tables.Length);
-
         GameObject FrontTableObj = Instantiate(tables[randTableIdx], tables[randTableIdx].transform.position, Quaternion.identity) as GameObject;
         frontTable = FrontTableObj.GetComponent<TableBehaviour>();
         nextTableInFront = false;
         scrollingTableList.Enqueue(FrontTableObj);
 
-        counter = 0.0f;
+        // Second table, further back into the screen
+        randTableIdx = Random.Range(0, tables.Length);
+        scrollingTableList.Enqueue(Instantiate(tables[randTableIdx], new Vector3((Constants.TABLE_LAUNCH_X + tables[randTableIdx].transform.position.x) / 2.0f, tables[randTableIdx].transform.position.y, tables[randTableIdx].transform.position.z), Quaternion.identity) as GameObject);
+
+        counter = 99.0f;
 
         dropTime01 = 2.0f; // regular drop
         dropTime02 = 3.0f; // max of regular two-table drop

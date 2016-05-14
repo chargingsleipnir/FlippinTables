@@ -2,7 +2,7 @@ TODO
 - Deanna to do more facial expressions and art pieces.
 - Get "options" and "extras" menus happening.
 - Include some other fleeing office workers? (Could take a bit of work...)
--- Other extras (purpose for combo counter)
+-- Other extras (purpose for combo counter) ("Good", "Excellent" flip system)
 - Audio
 - Ads.
 
