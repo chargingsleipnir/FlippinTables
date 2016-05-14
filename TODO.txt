@@ -1,11 +1,10 @@
 TODO
-- Deanna to do more facial expressions and art pieces.
-- Get "options" and "extras" menus happening.
-- Include some other fleeing office workers? (Could take a bit of work...)
--- Other extras (purpose for combo counter) ("Good", "Excellent" flip system)
-- Audio
+- Deanna to do facial expression for flip.
+- Get "options" and "extras" menus happening. (Optional)
+-- Other extras (purpose for combo counter) ("Good", "Excellent" flip system, might not be worth the trouble)
+- Audio (maybe replace flip sounds)
 - Ads.
-- Mobile device customization
+- Mobile device customization (icons)
 
 BUGS
 

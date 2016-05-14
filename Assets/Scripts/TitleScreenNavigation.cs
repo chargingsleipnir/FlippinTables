@@ -16,6 +16,10 @@ public class TitleScreenNavigation : MonoBehaviour {
 	public AudioClip music;
 
 	void Start () {
+        // THIS MAY NEED TO COME OUT AND BE REPLACED WITH A PROPER EXIT BUTTON
+        //Screen.fullScreen = false;
+
+
         blinker = GetComponent<BlinkerController>();
 		audio = GetComponent<AudioSource> ();
 
@@ -82,6 +86,11 @@ public class TitleScreenNavigation : MonoBehaviour {
     {
         Debug.Log("Launch options screen");
         state = TitleScreenState.inOptions;
+    }
+
+    public void OnExitBtn()
+    {
+        Application.Quit();
     }
 
     public void OnExtrasBtn()

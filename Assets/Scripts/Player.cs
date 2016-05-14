@@ -26,8 +26,9 @@ public class Player : MonoBehaviour {
 
 	AudioSource audio;
 	public AudioClip[] soundsFlip;
-	public AudioClip soundFootsteps;
 	public AudioClip soundImpact;
+    public AudioClip soundFootsteps;
+    float soundFootstepsPitch;
 
     // This needed to be "Awake" to avoid some null object references -> the components in the "Reset" function
     void Awake () {
@@ -60,6 +61,8 @@ public class Player : MonoBehaviour {
         torque = 125.0f;
         impactForce.Set(100.0f, 100.0f);
         anim.speed = 1.0f;
+        soundFootstepsPitch = 1.0f;
+        audio.pitch = 1.0f;
 
         exitTimer = 0.0f;
         exitMenuUp = false;
@@ -73,6 +76,7 @@ public class Player : MonoBehaviour {
         impactForce.x += 10.0f;
         impactForce.y += 10.0f;
         anim.speed += 0.1f;
+        soundFootstepsPitch += 0.1f;
     }
 
     // Use this to return reset indicator
@@ -85,6 +89,7 @@ public class Player : MonoBehaviour {
 			if (!anim.GetBool (airbourneHash)) {
 				audio.clip = soundsFlip[Random.Range(0, soundsFlip.Length)];
 				audio.loop = false;
+                audio.pitch = 1.0f;
 				audio.Play ();
 			}
             return true;
@@ -118,6 +123,7 @@ public class Player : MonoBehaviour {
 
     public void HitTable()
     {
+        Handheld.Vibrate();
         gameState = GameManager.GameStates.gameover;
         anim.SetInteger(stateHash, (int)AnimStates.impact);
         rb2D.isKinematic = false;
@@ -129,8 +135,10 @@ public class Player : MonoBehaviour {
     }
 
 	void FlipLanded () {
+        audio.Stop();
 		audio.clip = soundFootsteps;
 		audio.loop = true;
+        audio.pitch = soundFootstepsPitch;
 		audio.Play ();
 	}
 
