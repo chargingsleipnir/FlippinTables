@@ -25,7 +25,7 @@ public class Player : MonoBehaviour {
     bool exitMenuUp;
 
 	AudioSource audio;
-	public AudioClip soundFlip;
+	public AudioClip[] soundsFlip;
 	public AudioClip soundFootsteps;
 	public AudioClip soundImpact;
 
@@ -83,7 +83,7 @@ public class Player : MonoBehaviour {
             anim.SetInteger(stateHash, (int)AnimStates.flip);
 
 			if (!anim.GetBool (airbourneHash)) {
-				audio.clip = soundFlip;
+				audio.clip = soundsFlip[Random.Range(0, soundsFlip.Length)];
 				audio.loop = false;
 				audio.Play ();
 			}

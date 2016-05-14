@@ -5,8 +5,6 @@ using System.Collections.Generic;
 public class TableController : MonoBehaviour {
 
     public GameObject[] tables;
-    float table01HalfWidth; // 75% of this figure is currently being used as the "edge". This needs to be better controlled
-    float tableWidthScalar = 1.5f;
     Vector3 launchPos;
 
     Queue<GameObject> scrollingTableList;
@@ -29,8 +27,6 @@ public class TableController : MonoBehaviour {
 
     public void OnLoad()
     {
-        table01HalfWidth = (tables[0].transform.GetComponent<SpriteRenderer>().sprite.bounds.size.x * tables[0].transform.localScale.x) / 2.0f;
-
         launchPos = new Vector3();
         launchPos = tables[0].transform.position;
         launchPos.x = Constants.TABLE_LAUNCH_X;

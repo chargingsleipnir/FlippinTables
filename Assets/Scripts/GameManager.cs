@@ -119,7 +119,6 @@ public class GameManager : MonoBehaviour {
             highScore = tablesFlipped;
         }
 
-
         // If flips hits a certain number, increase speeds, flip force, etc.
 
         if (tablesFlipped % 10 == 0)
