@@ -195,6 +195,7 @@ public class Player : MonoBehaviour {
             {
                 otherColl.gameObject.GetComponent<TableBehaviour>().Flip(flipForce, torque);
                 SetFlipAccuracy(transform.position.x - otherColl.transform.position.x);
+                Physics2D.IgnoreCollision(circColl, otherColl);
             }
             else if(boxColl.IsTouching(otherColl))
             {
