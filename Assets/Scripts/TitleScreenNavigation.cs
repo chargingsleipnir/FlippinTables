@@ -33,36 +33,36 @@ public class TitleScreenNavigation : MonoBehaviour {
     {
         switch (state)
         {
-        case TitleScreenState.none:
-            blinker.Open();
-            state = TitleScreenState.transitioningIn;
-            break;
-        case TitleScreenState.transitioningIn:
-            if (blinker.CheckOpen())
-            {
-                foreach (Button button in uiButtons)
-                    button.interactable = true;
+            case TitleScreenState.none:
+                blinker.Open();
+                state = TitleScreenState.transitioningIn;
+                break;
+            case TitleScreenState.transitioningIn:
+                if (blinker.CheckOpen())
+                {
+                    foreach (Button button in uiButtons)
+                        button.interactable = true;
 
-				audio.clip = music;
-				audio.loop = true;
-				audio.Play ();
-                state = TitleScreenState.inMain;
-            }
-            break;
-        case TitleScreenState.inMain:
-            break;
-        case TitleScreenState.startingGame:
-            if(!blinker.CheckOpen())
-            {
-                state = TitleScreenState.none;
-                blinker.EndSceneTrigger();
-                SceneManager.LoadScene(1);
-            }
-            break;
-        case TitleScreenState.inOptions:
-            break;
-        case TitleScreenState.inExtras:
-            break;
+                    audio.clip = music;
+                    audio.loop = true;
+                    audio.Play();
+                    state = TitleScreenState.inMain;
+                }
+                break;
+            case TitleScreenState.inMain:
+                break;
+            case TitleScreenState.startingGame:
+                if (!blinker.CheckOpen())
+                {
+                    state = TitleScreenState.none;
+                    blinker.EndSceneTrigger();
+                    SceneManager.LoadScene(1);
+                }
+                break;
+            case TitleScreenState.inOptions:
+                break;
+            case TitleScreenState.inExtras:
+                break;
         }
     }
 

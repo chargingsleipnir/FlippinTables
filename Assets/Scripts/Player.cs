@@ -16,6 +16,7 @@ public class Player : MonoBehaviour {
 
     int stateHash = Animator.StringToHash("state");
 	int airbourneHash = Animator.StringToHash("isAirbourne");
+    int showFlipAccHash = Animator.StringToHash("showFlipAcc");
 
     Vector2 flipForce;
     float torque;
@@ -34,6 +35,11 @@ public class Player : MonoBehaviour {
     float soundFootstepsPitch;
 
     float flipAccDist; // Tested flip contact differences ranged from about 1.0f - 2.0f.
+    public SpriteRenderer flipAccMsgRend;
+    public Sprite 
+        imgPerf,
+        imgGood,
+        imgMeh;
 
     // This needed to be "Awake" to avoid some null object references -> the components in the "Reset" function
     void Awake () {
@@ -161,16 +167,24 @@ public class Player : MonoBehaviour {
 
     void SetFlipAccuracy(float dist)
     {
-        if (dist < 1.0 || dist > 2.0)
-            flipAcc = FlipAccuracy.none;
-        else if (dist < 1.2 || dist > 1.8)
+        if (dist < 1.2 || dist > 1.8)
+        {
             flipAcc = FlipAccuracy.meh;
+            flipAccMsgRend.sprite = imgMeh;
+        }
         else if (dist < 1.4 || dist > 1.6)
+        {
             flipAcc = FlipAccuracy.good;
+            flipAccMsgRend.sprite = imgGood;
+        }
         else
+        {
             flipAcc = FlipAccuracy.perf;
+            flipAccMsgRend.sprite = imgPerf;
+        }
 
         // Launch in-game flip accuracy message
+        anim.SetTrigger(showFlipAccHash);
     }
 
     void OnTriggerEnter2D(Collider2D otherColl)
@@ -184,6 +198,7 @@ public class Player : MonoBehaviour {
             }
             else if(boxColl.IsTouching(otherColl))
             {
+                flipAcc = FlipAccuracy.none;
                 HitTable();
             }
         }

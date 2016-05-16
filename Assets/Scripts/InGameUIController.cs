@@ -19,29 +19,28 @@ public class InGameUIController : MonoBehaviour {
     void Start()
     {
         blinker = GetComponent<BlinkerController>();
-        // fucked up way to start the level -- change this
-        blinker.Open();
     }
 
     public void UpdateHUD(int flipCount, int comboVal)
     {
         tablesflippedTextInGame.text = flipCount.ToString();
-        comboTextInGame.text = comboVal.ToString();
+        comboTextInGame.text = "x " + comboVal.ToString();
     }
     public void UpdateEndGameResults(int flipCount, int highScore, int highComboRound, int highComboOverall)
     {
         tablesflippedTextFinal.text = flipCount.ToString();
         highScoreText.text = highScore.ToString();
-        comboTextFinal.text = highComboRound.ToString();
-        highComboText.text = highComboOverall.ToString();
+        comboTextFinal.text = "x " + highComboRound.ToString();
+        highComboText.text = "x " + highComboOverall.ToString();
     }
 
     public void Reset()
     {
         tablesflippedTextInGame.text =
-        tablesflippedTextFinal.text =
+        tablesflippedTextFinal.text = "0";
+
         comboTextInGame.text =
-        comboTextFinal.text = "0";
+        comboTextFinal.text = "x 0";
         gameOverMenu.SetActive(false);
     }
 
