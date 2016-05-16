@@ -4,11 +4,12 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
-    public enum GameStates { prePlay, play, gameover, replay, exit, none }
+    public enum GameStates { prePlay, idle, play, gameover, replay, exit, none }
     public static GameStates gameState;
 
     int
         tablesFlipped,
+        score,
         highScore,
         comboVal,
         highComboThisRound,
@@ -52,6 +53,7 @@ public class GameManager : MonoBehaviour {
     {
         gameState = GameStates.prePlay;
         tablesFlipped = 0;
+        score = 0;
         comboVal = 0;
         highComboThisRound = 0;
         speed = 6.5f;
@@ -66,77 +68,83 @@ public class GameManager : MonoBehaviour {
 	void Update () {
         switch (gameState)
         {
-        case GameStates.prePlay:
-            if (guiCtrl.CheckBlinkerOpen())
-            {
-                if (player.OnPlay())
-                {
-                    gameState = GameStates.play;
-					music.Play ();
-                }
-            }
-            break;
-        case GameStates.play:
-            // update backgrounds
-            bgCtrl.OnFrame(speed);
-
-            // Returns table flip
-            tbCtrl.OnFrame(speed);
-                
-            if (tbCtrl.CheckFlip())
-            {
-                OnFlip(player.GetFlipAccuracy());
-            }
-
-            player.OnPlay();
-            gameState = player.AffectGameState();            
-            break;
-        case GameStates.gameover:
-            tbCtrl.CleanupFlippingTables();
-            // This will allow the player to see the exit menu after just a short time, or if the tap right away,
-            // without necessarily having to wait for the player to fall to a certain point.
-            if (player.EarlyExit())
-            {
-                guiCtrl.UpdateEndGameResults(tablesFlipped, highScore, highComboThisRound, highComboOverall); // 3 NOT REALLY A THING, JUST A PLACEHOLDER
-                guiCtrl.ActivateGameOverMenu();
-				music.volume = 0.25f;
-            }
-
-            // This will shut off the players motion and exit this state if a certain fall distance is reached.
-            player.OnGameOver();
-            gameState = player.AffectGameState();
-            break;
-		case GameStates.replay:
-			music.Stop ();
-            if (!guiCtrl.CheckBlinkerOpen())
-            {
-                Reset();
+            case GameStates.prePlay:
                 guiCtrl.OpenBlinker();
-            }
-            break;
-        case GameStates.exit:
-			music.Stop ();
-            if (!guiCtrl.CheckBlinkerOpen())
-            {
-                Reset();
-                guiCtrl.EndScene();
-                SceneManager.LoadScene(0);
-            }
-            break;
+                gameState = GameStates.idle;
+                break;
+            case GameStates.idle:
+                if (guiCtrl.CheckBlinkerOpen())
+                {
+                    if (player.OnPlay())
+                    {
+                        gameState = GameStates.play;
+                        music.Play();
+                    }
+                }
+                break;
+            case GameStates.play:
+                // update backgrounds
+                bgCtrl.OnFrame(speed);
+
+                // Returns table flip
+                tbCtrl.OnFrame(speed);
+
+                if (tbCtrl.CheckFlip())
+                {
+                    OnFlip(player.GetFlipAccuracy());
+                }
+
+                player.OnPlay();
+                gameState = player.AffectGameState();
+                break;
+            case GameStates.gameover:
+                tbCtrl.CleanupFlippingTables();
+                // This will allow the player to see the exit menu after just a short time, or if the tap right away,
+                // without necessarily having to wait for the player to fall to a certain point.
+                if (player.EarlyExit())
+                {
+                    guiCtrl.UpdateEndGameResults(score, highScore, highComboThisRound, highComboOverall); // 3 NOT REALLY A THING, JUST A PLACEHOLDER
+                    guiCtrl.ActivateGameOverMenu();
+                    music.volume = 0.25f;
+                }
+
+                // This will shut off the players motion and exit this state if a certain fall distance is reached.
+                player.OnGameOver();
+                gameState = player.AffectGameState();
+                break;
+            case GameStates.replay:
+                music.Stop();
+                if (!guiCtrl.CheckBlinkerOpen())
+                {
+                    Reset();
+                    guiCtrl.OpenBlinker();
+                }
+                break;
+            case GameStates.exit:
+                music.Stop();
+                if (!guiCtrl.CheckBlinkerOpen())
+                {
+                    Reset();
+                    guiCtrl.EndScene();
+                    SceneManager.LoadScene(0);
+                }
+                break;
         }
 	}
 
     void OnFlip(Player.FlipAccuracy flipAcc)
     {
         tablesFlipped++;
-        UpdateComboVal(flipAcc);
 
-        guiCtrl.UpdateHUD(tablesFlipped, comboVal);
+        UpdateComboVal(flipAcc);
+        score += comboVal;
+
+        guiCtrl.UpdateHUD(score, comboVal);
 
         // Track high scores
-        if (tablesFlipped > highScore)
+        if (score > highScore)
         {
-            highScore = tablesFlipped;
+            highScore = score;
         }
         if(comboVal > highComboThisRound)
         {
@@ -148,7 +156,7 @@ public class GameManager : MonoBehaviour {
         }
 
         // If flips hits a certain number, increase speeds, flip force, etc.
-
+        // Use tables flipped, not score, as that can increase like crazy.
         if (tablesFlipped % 10 == 0)
         {
             tbCtrl.PatternChange();
@@ -163,12 +171,12 @@ public class GameManager : MonoBehaviour {
 
     void UpdateComboVal(Player.FlipAccuracy flipAcc)
     {
-        if (flipAcc == prevFlipAcc && flipAcc == Player.FlipAccuracy.perf)
+        if (flipAcc == Player.FlipAccuracy.perf)
             comboVal++;
-        else
+        else if(flipAcc == Player.FlipAccuracy.meh)
             comboVal = 1;
 
-        prevFlipAcc = flipAcc;
+        //prevFlipAcc = flipAcc;
     }
 
     public void PostGame(int replayOption)
