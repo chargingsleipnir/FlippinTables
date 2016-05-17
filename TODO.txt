@@ -1,13 +1,15 @@
 TODO
 - Deanna to do facial expression for flip.
-- Get "options" and "extras" menus happening. (Optional)
-- Audio (maybe replace flip sounds)
+- Reactivate "options" menu - Need to:
+-- make audio manager to toggle sound effects on and off, and 
+-- provide option to pay to remove ads.
 - Ads.
 - Mobile device customization (icons - steph)
-- Add score addition anim for every flip (maybe not, seems redundant)
+- Make the background jitter on impact
+- Chop and add extra grunt noises
+- Fix up game over menu (include exact table flip count?) - Deanna
 
 BUGS
 
-- Retry button stays in it's "clicked" colour (Done??)
 - Figure out those button-related warnings if possible...
 - Fix in game gui/game manager calls, as they are FUCKING AWFUL right now.

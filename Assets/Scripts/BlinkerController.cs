@@ -30,7 +30,6 @@ public class BlinkerController : MonoBehaviour {
 
     public void Open()
     {
-        Debug.Log(anim);
         anim.SetTrigger(openTrigHash);
     }
 

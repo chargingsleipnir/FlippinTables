@@ -78,6 +78,7 @@ public class TableController : MonoBehaviour {
     public void PatternChange()
     {
         dropPattern = (dropPattern + 1) % 3;
+        counter = 0.0f;
     }
 
     public void CleanupFlippingTables()
@@ -109,10 +110,10 @@ public class TableController : MonoBehaviour {
     // use bool to return flip
     public void OnFrame (float speed) {
 
+        counter += Time.deltaTime;
         // Tables drop at regular increments
-        if(dropPattern == 0)
+        if (dropPattern == 0)
         {
-            counter += Time.deltaTime;
             if(counter >= dropTime01)
             {
                 scrollingTableList.Enqueue(Instantiate(tables[randTableIdx], launchPos, Quaternion.identity) as GameObject);
@@ -124,7 +125,6 @@ public class TableController : MonoBehaviour {
         // Tables drop in close pairs, but with a little further spread out
         else if (dropPattern == 1)
         {
-            counter += Time.deltaTime;
             if(counter >= dropTime02)
             {
                 scrollingTableList.Enqueue(Instantiate(tables[randTableIdx], launchPos, Quaternion.identity) as GameObject);
@@ -144,7 +144,6 @@ public class TableController : MonoBehaviour {
         // Tables drop with controlled randomness
         else
         {
-            counter += Time.deltaTime;
             if (counter >= pattern3RandomTime)
             {
                 scrollingTableList.Enqueue(Instantiate(tables[randTableIdx], launchPos, Quaternion.identity) as GameObject);

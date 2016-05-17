@@ -15,6 +15,10 @@ public class TitleScreenNavigation : MonoBehaviour {
 	AudioSource audio;
 	public AudioClip music;
 
+    public RectTransform spiralImgTrans;
+
+    float angle;
+
 	void Start () {
         // THIS MAY NEED TO COME OUT AND BE REPLACED WITH A PROPER EXIT BUTTON
         //Screen.fullScreen = false;
@@ -27,10 +31,18 @@ public class TitleScreenNavigation : MonoBehaviour {
 
         Reset();
         state = TitleScreenState.none;
+
+        angle = 0.0f;
     }
 
     void Update ()
     {
+        angle += 3.0f;
+        if (angle >= 360.0f)
+            angle = 0.0f;
+
+        spiralImgTrans.rotation = Quaternion.Euler(0.0f, 0.0f, angle);
+
         switch (state)
         {
             case TitleScreenState.none:
