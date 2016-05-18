@@ -13,3 +13,5 @@ BUGS
 
 - Figure out those button-related warnings if possible...
 - Fix in game gui/game manager calls, as they are FUCKING AWFUL right now.
+-- Use delegates and callbacks with CloseBlinker()
+--- Fix this in every place I'm persistently checking for bool statuses - IDIOT

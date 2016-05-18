@@ -19,10 +19,15 @@ public class TitleScreenNavigation : MonoBehaviour {
 
     float angle;
 
-	void Start () {
+    AdController adCtrl;
+    bool adLaunched;
+
+    void Start () {
         // THIS MAY NEED TO COME OUT AND BE REPLACED WITH A PROPER EXIT BUTTON
         //Screen.fullScreen = false;
 
+        adCtrl = GameObject.Find("Persistor").GetComponent<AdController>();
+        adLaunched = false;
 
         blinker = GetComponent<BlinkerController>();
 		audio = GetComponent<AudioSource> ();
@@ -66,9 +71,18 @@ public class TitleScreenNavigation : MonoBehaviour {
             case TitleScreenState.startingGame:
                 if (!blinker.CheckOpen())
                 {
-                    state = TitleScreenState.none;
-                    blinker.EndSceneTrigger();
-                    SceneManager.LoadScene(1);
+                    if (adLaunched == false)
+                    {
+                        adCtrl.CountReset();
+                        adLaunched = true;
+                    }
+                    if (!adCtrl.CheckAdShowing())
+                    {
+                        adLaunched = false;
+                        state = TitleScreenState.none;
+                        blinker.EndSceneTrigger();
+                        SceneManager.LoadScene(2);
+                    }
                 }
                 break;
             case TitleScreenState.inOptions:

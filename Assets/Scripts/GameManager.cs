@@ -30,11 +30,17 @@ public class GameManager : MonoBehaviour {
 
 	AudioSource music;
 
+    AdController adCtrl;
+    bool adLaunched;
+
     void Start () {
         bgCtrl = GetComponent<BackgroundController>();
         tbCtrl = GetComponent<TableController>();
 		music = GetComponent<AudioSource> ();
 		music.loop = true;
+
+        adCtrl = GameObject.Find("Persistor").GetComponent<AdController>();
+        adLaunched = false;
 
         // Make sure to incorporate SCALE!!!
         player = playerObj.GetComponent<Player>();
@@ -116,8 +122,17 @@ public class GameManager : MonoBehaviour {
                 music.Stop();
                 if (!guiCtrl.CheckBlinkerOpen())
                 {
-                    Reset();
-                    guiCtrl.OpenBlinker();
+                    if (adLaunched == false)
+                    {
+                        adCtrl.CountReset();
+                        adLaunched = true;
+                    }
+                    if (!adCtrl.CheckAdShowing())
+                    {
+                        adLaunched = false;
+                        Reset();
+                        guiCtrl.OpenBlinker();
+                    }
                 }
                 break;
             case GameStates.exit:
@@ -126,7 +141,7 @@ public class GameManager : MonoBehaviour {
                 {
                     Reset();
                     guiCtrl.EndScene();
-                    SceneManager.LoadScene(0);
+                    SceneManager.LoadScene(1);
                 }
                 break;
         }
