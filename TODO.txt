@@ -3,9 +3,7 @@ TODO
 - Reactivate "options" menu - Need to:
 -- make audio manager to toggle sound effects on and off, and 
 -- provide option to pay to remove ads.
-- Ads.
 - Mobile device customization (icons - steph)
-- Make the background jitter on impact
 - Chop and add extra grunt noises
 - Fix up game over menu (include exact table flip count?) - Deanna
 

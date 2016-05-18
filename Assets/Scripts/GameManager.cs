@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
     BackgroundController bgCtrl;
     TableController tbCtrl;
     public InGameUIController guiCtrl;
+    CameraController camCtrl;
 
     public GameObject playerObj;
     Player player;
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour {
     void Start () {
         bgCtrl = GetComponent<BackgroundController>();
         tbCtrl = GetComponent<TableController>();
+        camCtrl = GetComponent<CameraController>();
 		music = GetComponent<AudioSource> ();
 		music.loop = true;
 
@@ -102,6 +104,10 @@ public class GameManager : MonoBehaviour {
 
                 player.OnPlay();
                 gameState = player.AffectGameState();
+                if(gameState == GameStates.gameover)
+                {
+                    StartCoroutine(camCtrl.Shake());         
+                }
                 break;
             case GameStates.gameover:
                 tbCtrl.CleanupFlippingTables();
