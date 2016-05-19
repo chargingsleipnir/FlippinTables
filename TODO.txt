@@ -3,7 +3,7 @@ TODO
 -- make audio manager to toggle sound effects on and off, and 
 -- provide option to pay to remove ads.
 - Chop and add extra grunt noises (Just Steph now)
-- Fix up game over menu (include exact table flip count?) - Deanna
+- Leaderboards?
 
 BUGS
 

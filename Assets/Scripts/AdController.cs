@@ -20,7 +20,7 @@ public class AdController : MonoBehaviour {
     {
         resetCounter++;
 
-        if(resetCounter == 3 && adBlocker == false)
+        if(resetCounter == Constants.AD_RESET_COUNTER && adBlocker == false)
         {
             resetCounter = 0;
             Advertisement.Show();

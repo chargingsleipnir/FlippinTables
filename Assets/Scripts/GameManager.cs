@@ -62,10 +62,12 @@ public class GameManager : MonoBehaviour {
     public void Reset ()
     {
         gameState = GameStates.prePlay;
+
         flips = 0;
         score = 0;
         comboVal = 0;
         highComboThisRound = 0;
+
         speed = 6.5f;
 		music.volume = 1.0f;
 
@@ -117,7 +119,25 @@ public class GameManager : MonoBehaviour {
                 // without necessarily having to wait for the player to fall to a certain point.
                 if (player.EarlyExit())
                 {
-                    guiCtrl.UpdateEndGameResults(flips, highFlips, score, highScore, highComboThisRound, highComboOverall); // 3 NOT REALLY A THING, JUST A PLACEHOLDER
+                    bool newHighReached = false;
+                    // Track high scores for overall game
+                    if (flips > highFlips)
+                    {
+                        highFlips = flips;
+                        newHighReached = true;
+                    }
+                    if (score > highScore)
+                    {
+                        highScore = score;
+                        newHighReached = true;
+                    }
+                    if (highComboThisRound > highComboOverall)
+                    {
+                        highComboOverall = highComboThisRound;
+                        newHighReached = true;
+                    }
+
+                    guiCtrl.UpdateEndGameResults(flips, highFlips, score, highScore, highComboThisRound, highComboOverall, newHighReached); // 3 NOT REALLY A THING, JUST A PLACEHOLDER
                     guiCtrl.ActivateGameOverMenu();
                     music.volume = 0.25f;
                 }
@@ -164,22 +184,10 @@ public class GameManager : MonoBehaviour {
 
         guiCtrl.UpdateHUD(score, comboVal);
 
-        // Track high scores
-        if(flips > highFlips)
-        {
-            highFlips = flips;
-        }
-        if (score > highScore)
-        {
-            highScore = score;
-        }
-        if(comboVal > highComboThisRound)
+        // Track high-combo-by-round here as it can decrease during the game
+        if (comboVal > highComboThisRound)
         {
             highComboThisRound = comboVal;
-            if (highComboThisRound > highComboOverall)
-            {
-                highComboOverall = highComboThisRound;
-            }
         }
 
         // If flips hits a certain number, increase speeds, flip force, etc.
