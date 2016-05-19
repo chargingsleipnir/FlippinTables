@@ -8,7 +8,8 @@ public class GameManager : MonoBehaviour {
     public static GameStates gameState;
 
     int
-        tablesFlipped,
+        flips,
+        highFlips,
         score,
         highScore,
         comboVal,
@@ -48,6 +49,7 @@ public class GameManager : MonoBehaviour {
         player = playerObj.GetComponent<Player>();
         prevFlipAcc = Player.FlipAccuracy.none;
 
+        highFlips = 0;
         highScore = 0;
         highComboOverall = 0;
 
@@ -60,7 +62,7 @@ public class GameManager : MonoBehaviour {
     public void Reset ()
     {
         gameState = GameStates.prePlay;
-        tablesFlipped = 0;
+        flips = 0;
         score = 0;
         comboVal = 0;
         highComboThisRound = 0;
@@ -115,7 +117,7 @@ public class GameManager : MonoBehaviour {
                 // without necessarily having to wait for the player to fall to a certain point.
                 if (player.EarlyExit())
                 {
-                    guiCtrl.UpdateEndGameResults(score, highScore, highComboThisRound, highComboOverall); // 3 NOT REALLY A THING, JUST A PLACEHOLDER
+                    guiCtrl.UpdateEndGameResults(flips, highFlips, score, highScore, highComboThisRound, highComboOverall); // 3 NOT REALLY A THING, JUST A PLACEHOLDER
                     guiCtrl.ActivateGameOverMenu();
                     music.volume = 0.25f;
                 }
@@ -155,7 +157,7 @@ public class GameManager : MonoBehaviour {
 
     void OnFlip(Player.FlipAccuracy flipAcc)
     {
-        tablesFlipped++;
+        flips++;
 
         UpdateComboVal(flipAcc);
         score += comboVal;
@@ -163,6 +165,10 @@ public class GameManager : MonoBehaviour {
         guiCtrl.UpdateHUD(score, comboVal);
 
         // Track high scores
+        if(flips > highFlips)
+        {
+            highFlips = flips;
+        }
         if (score > highScore)
         {
             highScore = score;
@@ -178,11 +184,11 @@ public class GameManager : MonoBehaviour {
 
         // If flips hits a certain number, increase speeds, flip force, etc.
         // Use tables flipped, not score, as that can increase like crazy.
-        if (tablesFlipped % 10 == 0)
+        if (flips % 10 == 0)
         {
             tbCtrl.PatternChange();
         }
-        else if (tablesFlipped % 5 == 0)
+        else if (flips % 5 == 0)
         {
             speed += 0.5f;
             tbCtrl.SpeedIncrease();

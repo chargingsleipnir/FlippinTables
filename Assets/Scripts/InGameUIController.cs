@@ -26,9 +26,9 @@ public class InGameUIController : MonoBehaviour {
         tablesflippedTextInGame.text = flipCount.ToString();
         comboTextInGame.text = "x " + comboVal.ToString();
     }
-    public void UpdateEndGameResults(int flipCount, int highScore, int highComboRound, int highComboOverall)
+    public void UpdateEndGameResults(int flips, int highFlips, int score, int highScore, int highComboRound, int highComboOverall)
     {
-        tablesflippedTextFinal.text = flipCount.ToString();
+        tablesflippedTextFinal.text = score.ToString();
         highScoreText.text = highScore.ToString();
         comboTextFinal.text = "x " + highComboRound.ToString();
         highComboText.text = "x " + highComboOverall.ToString();
