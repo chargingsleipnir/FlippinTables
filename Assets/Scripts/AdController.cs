@@ -13,6 +13,8 @@ public class AdController : MonoBehaviour {
         resetCounter = 0;
         adBlocker = false;
 
+        Screen.fullScreen = false;
+
         SceneManager.LoadScene(1);
 	}
 
