@@ -42,6 +42,11 @@ public class TitleScreenNavigation : MonoBehaviour {
 
     void Update ()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            OnExitBtn();
+        }
+
         angle += 3.0f;
         if (angle >= 360.0f)
             angle = 0.0f;
@@ -110,7 +115,6 @@ public class TitleScreenNavigation : MonoBehaviour {
 
     public void OnOptionsBtn()
     {
-        Debug.Log("Launch options screen");
         state = TitleScreenState.inOptions;
     }
 
@@ -121,7 +125,6 @@ public class TitleScreenNavigation : MonoBehaviour {
 
     public void OnExtrasBtn()
     {
-        Debug.Log("Launch extras screen");
         state = TitleScreenState.inExtras;
     }
 }

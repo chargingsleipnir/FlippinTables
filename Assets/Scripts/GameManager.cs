@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour {
         highScore,
         comboVal,
         highComboThisRound,
-        highComboOverall;
+        highComboOverall; 
 
     bool endRun;
 
@@ -78,6 +78,12 @@ public class GameManager : MonoBehaviour {
     }
 
 	void Update () {
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PostGame(0);
+        }
+
         switch (gameState)
         {
             case GameStates.prePlay:
