@@ -2,7 +2,6 @@ TODO
 - Reactivate "options" menu - Need to:
 -- make audio manager to toggle sound effects on and off, and 
 -- provide option to pay to remove ads.
-- Chop and add extra grunt noises (Just Steph now)
 
 1. Upload APK
 2. Content Rating
