@@ -3,9 +3,7 @@ TODO
 -- make audio manager to toggle sound effects on and off, and 
 -- provide option to pay to remove ads.
 
-1. Upload APK
-2. Content Rating
-3. Leaderboard services
+Add 5 acheivments to allow publishing?
 
 BUGS
 

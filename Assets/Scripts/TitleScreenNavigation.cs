@@ -19,14 +19,23 @@ public class TitleScreenNavigation : MonoBehaviour {
 
     float angle;
 
+    GameObject persistorObj;
+
     AdController adCtrl;
+
+    SocialController socCtrl;
+    public Text loginText;
+
     bool adLaunched;
 
     void Start () {
         // THIS MAY NEED TO COME OUT AND BE REPLACED WITH A PROPER EXIT BUTTON
         //Screen.fullScreen = false;
 
-        adCtrl = GameObject.Find("Persistor").GetComponent<AdController>();
+        persistorObj = GameObject.Find("Persistor");
+        adCtrl = persistorObj.GetComponent<AdController>();
+        socCtrl = persistorObj.GetComponent<SocialController>();
+
         adLaunched = false;
 
         blinker = GetComponent<BlinkerController>();
@@ -116,6 +125,40 @@ public class TitleScreenNavigation : MonoBehaviour {
     public void OnOptionsBtn()
     {
         state = TitleScreenState.inOptions;
+    }
+
+    void LoginCallback(bool didAuth)
+    {
+        if (didAuth)
+        {
+            loginText.color = Color.green;
+            loginText.text = "Login successful :)";
+        }
+        else
+        {
+            loginText.color = Color.red;
+            loginText.text = "Login unsuccessful :(";
+        }
+    }
+    void AlreadyLoggedInCallback()
+    {
+        loginText.color = Color.green;
+        loginText.text = "Already logged in :)";
+    }
+
+    public void OnLoginBtn()
+    {
+        socCtrl.Login(LoginCallback, AlreadyLoggedInCallback);
+    }
+    public void OnLogoutBtn()
+    {
+        socCtrl.Logout();
+        loginText.color = Color.green;
+        loginText.text = "Logout successful :)";
+    }
+    public void OnBackBtn()
+    {
+        loginText.text = "";
     }
 
     public void OnExitBtn()
