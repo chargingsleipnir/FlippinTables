@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour {
     public GameObject playerObj;
     Player player;
     float playerWidth;
-    Player.FlipAccuracy prevFlipAcc;
+    
 
     float speed;
 
@@ -34,6 +34,9 @@ public class GameManager : MonoBehaviour {
 
     AdController adCtrl;
     bool adLaunched;
+
+    Player.FlipAccuracy prevFlipAcc;
+    int flipAccAchieveCounter;
 
     void Start () {
         bgCtrl = GetComponent<BackgroundController>();
@@ -70,6 +73,8 @@ public class GameManager : MonoBehaviour {
 
         speed = 6.5f;
 		music.volume = 1.0f;
+
+        flipAccAchieveCounter = 0;
 
         bgCtrl.Reset();
         player.Reset();
@@ -208,6 +213,32 @@ public class GameManager : MonoBehaviour {
             tbCtrl.SpeedIncrease();
             player.SpeedIncrease();
         }
+
+        // ACHIEVEMENT CHECKS
+
+        if(flipAcc == prevFlipAcc)
+        {
+            flipAccAchieveCounter++;
+            if(flipAccAchieveCounter == Constants.ACH_FLIP_ACC_COUNT - 1)
+            {
+                if (flipAcc == Player.FlipAccuracy.perf)
+                    guiCtrl.UpdateAchievement(Constants.ACH_FOCUSED_FLIPPER, "Achievement: Focused Flipper");
+                else if (flipAcc == Player.FlipAccuracy.good)
+                    guiCtrl.UpdateAchievement(Constants.ACH_GOOD_GRIP, "Achievement: Good Grip");
+                else if (flipAcc == Player.FlipAccuracy.meh)
+                    guiCtrl.UpdateAchievement(Constants.ACH_MESSY_MAYHEM, "Achievement: Messy Mayhem");
+            }
+        }
+        else
+        {
+            flipAccAchieveCounter = 1;
+        }
+        prevFlipAcc = flipAcc;
+
+        if (score > Constants.ACH_TABLE_TIRADE_SCORE - 1 || flips > Constants.ACH_TABLE_TIRADE_FLIPS - 1)
+        {
+            guiCtrl.UpdateAchievement(Constants.ACH_TABLE_TIRADE, "Achievement: Table Tirade");
+        }
     }
 
     void UpdateComboVal(Player.FlipAccuracy flipAcc)
@@ -217,7 +248,8 @@ public class GameManager : MonoBehaviour {
         else if(flipAcc == Player.FlipAccuracy.meh)
             comboVal = 1;
 
-        //prevFlipAcc = flipAcc;
+        if (comboVal < 1)
+            comboVal = 1;
     }
 
     public void PostGame(int replayOption)

@@ -167,12 +167,12 @@ public class Player : MonoBehaviour {
 
     void SetFlipAccuracy(float dist)
     {
-        if (dist < 1.2 || dist > 1.8)
+        if (dist < 1.15 || dist > 1.75)
         {
             flipAcc = FlipAccuracy.meh;
             flipAccMsgRend.sprite = imgMeh;
         }
-        else if (dist < 1.4 || dist > 1.6)
+        else if (dist < 1.35 || dist > 1.55)
         {
             flipAcc = FlipAccuracy.good;
             flipAccMsgRend.sprite = imgGood;

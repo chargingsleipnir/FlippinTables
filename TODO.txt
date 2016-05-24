@@ -2,8 +2,7 @@ TODO
 - Reactivate "options" menu - Need to:
 -- make audio manager to toggle sound effects on and off, and 
 -- provide option to pay to remove ads.
-
-Add 5 acheivments to allow publishing?
+- Publish for ios
 
 BUGS
 
@@ -11,3 +10,5 @@ BUGS
 - Fix in game gui/game manager calls, as they are FUCKING AWFUL right now.
 -- Use delegates and callbacks with CloseBlinker()
 --- Fix this in every place I'm persistently checking for bool statuses - IDIOT
+- Fix title
+- Check for optimization

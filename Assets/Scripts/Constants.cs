@@ -14,4 +14,15 @@ public class Constants : MonoBehaviour {
     public const string BOARD_ID_SCORE = "CgkIgpqt_u0CEAIQAQ";
     public const string BOARD_ID_COMBO = "CgkIgpqt_u0CEAIQAg";
     public const string BOARD_ID_FLIPS = "CgkIgpqt_u0CEAIQAw";
+
+    public const string ACH_FOCUSED_FLIPPER = "CgkIgpqt_u0CEAIQBA";
+    public const string ACH_GOOD_GRIP = "CgkIgpqt_u0CEAIQBQ";
+    public const string ACH_MESSY_MAYHEM = "CgkIgpqt_u0CEAIQBg";
+    public const string ACH_SOOTHING_SONG = "CgkIgpqt_u0CEAIQBw";
+    public const string ACH_TABLE_TIRADE = "CgkIgpqt_u0CEAIQCA";
+
+    public const int ACH_FLIP_ACC_COUNT = 10;
+    public const int ACH_TABLE_TIRADE_SCORE = 1000;
+    public const int ACH_TABLE_TIRADE_FLIPS = 200;
+    public const int ACH_SOOTHING_SONG_MINS = 5;
 }

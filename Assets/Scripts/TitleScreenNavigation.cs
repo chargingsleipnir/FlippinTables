@@ -28,6 +28,11 @@ public class TitleScreenNavigation : MonoBehaviour {
 
     bool adLaunched;
 
+    float achTimer;
+    bool achReached;
+    string achMsg;
+    public Text achievementText;
+
     void Start () {
         // THIS MAY NEED TO COME OUT AND BE REPLACED WITH A PROPER EXIT BUTTON
         //Screen.fullScreen = false;
@@ -81,6 +86,7 @@ public class TitleScreenNavigation : MonoBehaviour {
                 }
                 break;
             case TitleScreenState.inMain:
+                achTimer -= Time.deltaTime;
                 break;
             case TitleScreenState.startingGame:
                 if (!blinker.CheckOpen())
@@ -100,9 +106,18 @@ public class TitleScreenNavigation : MonoBehaviour {
                 }
                 break;
             case TitleScreenState.inOptions:
+                achTimer -= Time.deltaTime;
                 break;
             case TitleScreenState.inExtras:
+                achTimer -= Time.deltaTime;
                 break;
+        }
+
+        Debug.Log(achTimer);
+        if(achTimer <= 0.0f && achReached == false)
+        {
+            achReached = true;
+            UpdateAchievement(Constants.ACH_SOOTHING_SONG, "Achievement: Soothing Song");
         }
     }
 
@@ -113,6 +128,12 @@ public class TitleScreenNavigation : MonoBehaviour {
 
 		audio.loop = false;
 		audio.Stop ();
+
+        // multiply const minutes by 60 secs/min - use seconds as that's what deltaTime uses.
+        achTimer = Constants.ACH_SOOTHING_SONG_MINS * 60.0f;
+        achReached = false;
+        achMsg = "";
+        achievementText.text = "";
     }
 
     public void OnPlayBtn()
@@ -156,6 +177,14 @@ public class TitleScreenNavigation : MonoBehaviour {
         loginText.color = Color.green;
         loginText.text = "Logout successful :)";
     }
+    public void OnViewAchBtn()
+    {
+        if(!socCtrl.ShowAchievements())
+        {
+            loginText.color = Color.white;
+            loginText.text = "Login to view achievements";
+        }
+    }
     public void OnBackBtn()
     {
         loginText.text = "";
@@ -169,5 +198,40 @@ public class TitleScreenNavigation : MonoBehaviour {
     public void OnExtrasBtn()
     {
         state = TitleScreenState.inExtras;
+    }
+
+
+
+    void AchievementReachedCallback(bool success)
+    {
+        if (success)
+        {
+            // Android actually displays on it's own
+            //StartCoroutine(AchTextDisplay());
+        }
+    }
+
+    IEnumerator AchTextDisplay()
+    {
+        Color c = Color.green;
+        c.a = 1.0f;
+        achievementText.text = achMsg;
+        achievementText.color = c;
+        yield return new WaitForSeconds(3.0f);
+
+        while (c.a > 0.0f)
+        {
+            c.a -= 0.01f;
+            achievementText.color = c;
+            yield return 0;
+        }
+
+        achievementText.text = "";
+    }
+
+    void UpdateAchievement(string achId, string achMsg)
+    {
+        this.achMsg = achMsg;
+        socCtrl.ReportProgress(achId, AchievementReachedCallback);
     }
 }

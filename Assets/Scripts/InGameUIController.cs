@@ -52,6 +52,9 @@ public class InGameUIController : MonoBehaviour {
         comboLeadBtn,
         flipsLeadBtn;
 
+    string achMsg;
+    public Text achievementText;
+
     void Start()
     {
         flipsRoundTxt = flipsRoundTxtObj.GetComponent<Text>();
@@ -118,6 +121,9 @@ public class InGameUIController : MonoBehaviour {
         scoreLeadBtn.SetActive(false);
         comboLeadBtn.SetActive(false);
         flipsLeadBtn.SetActive(false);
+
+        achMsg = "";
+        achievementText.text = "";
 
         //foreach (Button button in uiButtons)
           //  button.interactable = true;
@@ -215,6 +221,39 @@ public class InGameUIController : MonoBehaviour {
     public void OnFlipsLeadButton()
     {
         socCtrl.ShowLeaderBoard(Constants.BOARD_ID_FLIPS);
+    }
+
+    void AchievementReachedCallback(bool success)
+    {
+        if(success)
+        {
+            // Android actually displays on it's own
+            //StartCoroutine(AchTextDisplay());
+        }
+    }
+
+    IEnumerator AchTextDisplay()
+    {
+        Color c = Color.green;
+        c.a = 1.0f;
+        achievementText.text = achMsg;
+        achievementText.color = c;
+        yield return new WaitForSeconds(3.0f);
+
+        while(c.a > 0.0f)
+        {
+            c.a -= 0.01f;
+            achievementText.color = c;
+            yield return 0;
+        }
+
+        achievementText.text = "";
+    }
+
+    public void UpdateAchievement(string achId, string achMsg)
+    {
+        this.achMsg = achMsg;
+        socCtrl.ReportProgress(achId, AchievementReachedCallback);
     }
 
     public void OnReplayBtn()

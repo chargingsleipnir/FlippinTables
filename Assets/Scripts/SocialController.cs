@@ -43,4 +43,20 @@ public class SocialController : MonoBehaviour {
             ((PlayGamesPlatform)Social.Active).ShowLeaderboardUI(leaderboardID);
         }
     }
+    public void ReportProgress(string achId, Action<bool> achReachedCallback)
+    {
+        if (Social.localUser.authenticated)
+        {
+            // Progress is 100.0 while I am only using binary achievements
+            Social.ReportProgress(achId, 100.0, achReachedCallback);
+        }
+    }
+    public bool ShowAchievements()
+    {
+        if (Social.localUser.authenticated)
+        {
+            ((PlayGamesPlatform)Social.Active).ShowAchievementsUI();
+        }
+        return Social.localUser.authenticated;
+    }
 }
