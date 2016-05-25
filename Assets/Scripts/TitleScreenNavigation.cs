@@ -113,7 +113,6 @@ public class TitleScreenNavigation : MonoBehaviour {
                 break;
         }
 
-        Debug.Log(achTimer);
         if(achTimer <= 0.0f && achReached == false)
         {
             achReached = true;
