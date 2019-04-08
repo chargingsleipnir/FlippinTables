@@ -28,7 +28,7 @@ public class Player : MonoBehaviour {
     float exitTimer = 0.0f;
     bool exitMenuUp;
 
-	AudioSource audio;
+	AudioSource audioS;
 	public AudioClip[] soundsFlip;
 	public AudioClip soundImpact;
     public AudioClip soundFootsteps;
@@ -47,7 +47,7 @@ public class Player : MonoBehaviour {
         boxColl = GetComponent<BoxCollider2D>();
         circColl = GetComponent<CircleCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
-		audio = GetComponent<AudioSource> ();
+		audioS = GetComponent<AudioSource> ();
 
         flipForce = new Vector2();
 
@@ -75,7 +75,7 @@ public class Player : MonoBehaviour {
         impactForce.Set(100.0f, 100.0f);
         anim.speed = 1.0f;
         soundFootstepsPitch = 1.0f;
-        audio.pitch = 1.0f;
+        audioS.pitch = 1.0f;
 
         exitTimer = 0.0f;
         exitMenuUp = false;
@@ -100,10 +100,10 @@ public class Player : MonoBehaviour {
             anim.SetInteger(stateHash, (int)AnimStates.flip);
 
 			if (!anim.GetBool (airbourneHash)) {
-				audio.clip = soundsFlip[Random.Range(0, soundsFlip.Length)];
-				audio.loop = false;
-                audio.pitch = 1.0f;
-				audio.Play ();
+				audioS.clip = soundsFlip[Random.Range(0, soundsFlip.Length)];
+				audioS.loop = false;
+                audioS.pitch = 1.0f;
+				audioS.Play ();
 			}
             return true;
         }
@@ -136,23 +136,25 @@ public class Player : MonoBehaviour {
 
     public void HitTable()
     {
+#if UNITY_IOS || UNITY_ANDROID
         Handheld.Vibrate();
+#endif
         gameState = GameManager.GameStates.gameover;
         anim.SetInteger(stateHash, (int)AnimStates.impact);
         rb2D.isKinematic = false;
         rb2D.gravityScale = 1.0f;
         rb2D.AddForce(impactForce);
-		audio.clip = soundImpact;
-		audio.loop = false;
-		audio.Play ();
+		audioS.clip = soundImpact;
+		audioS.loop = false;
+		audioS.Play ();
     }
 
 	void FlipLanded () {
-        audio.Stop();
-		audio.clip = soundFootsteps;
-		audio.loop = true;
-        audio.pitch = soundFootstepsPitch;
-		audio.Play ();
+        audioS.Stop();
+		audioS.clip = soundFootsteps;
+		audioS.loop = true;
+        audioS.pitch = soundFootstepsPitch;
+		audioS.Play ();
 	}
 
     public GameManager.GameStates AffectGameState()

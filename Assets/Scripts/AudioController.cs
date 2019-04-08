@@ -3,11 +3,9 @@ using System.Collections;
 
 public class AudioController : MonoBehaviour {
 
-	void Start () {
-        
-	}
+    public float CurrVolume { get; set; }
 
-	void Update () {
-	
+	void Start () {
+        CurrVolume = 0.0f;
 	}
 }

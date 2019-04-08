@@ -32,6 +32,13 @@ public class GameManager : MonoBehaviour {
 
 	AudioSource music;
 
+    GameObject persistorObj;
+    AudioController audioCtrl;
+
+    // Hold reference to certain pages/buttons, and shut them off if not applicable to given build type
+    [SerializeField]
+    GameObject postBestsBtn;
+
     AdController adCtrl;
     bool adLaunched;
 
@@ -39,11 +46,21 @@ public class GameManager : MonoBehaviour {
     int flipAccAchieveCounter;
 
     void Start () {
+
+#if !(UNITY_IOS || UNITY_ANDROID)
+        postBestsBtn.SetActive(false);
+#endif
+
         bgCtrl = GetComponent<BackgroundController>();
         tbCtrl = GetComponent<TableController>();
         camCtrl = GetComponent<CameraController>();
+
 		music = GetComponent<AudioSource> ();
 		music.loop = true;
+
+        persistorObj = GameObject.Find("Persistor");
+        audioCtrl = persistorObj.GetComponent<AudioController>();
+        AudioListener.volume = audioCtrl.CurrVolume;
 
         adCtrl = GameObject.Find("Persistor").GetComponent<AdController>();
         adLaunched = false;

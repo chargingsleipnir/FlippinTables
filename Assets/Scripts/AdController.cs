@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+#if UNITY_ADS
 using UnityEngine.Advertisements;
+#endif
 
 public class AdController : MonoBehaviour {
 
@@ -25,13 +27,18 @@ public class AdController : MonoBehaviour {
         if(resetCounter == Constants.AD_RESET_COUNTER && adBlocker == false)
         {
             resetCounter = 0;
+#if UNITY_ADS
             Advertisement.Show();
+#endif
         }
     }
 
     public bool CheckAdShowing()
     {
+#if UNITY_ADS
         return Advertisement.isShowing;
+#endif
+        return false;
     }
 
     public void BlockAds()

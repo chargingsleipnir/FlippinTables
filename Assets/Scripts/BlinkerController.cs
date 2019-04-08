@@ -9,7 +9,7 @@ public class BlinkerController : MonoBehaviour {
     sceneChangeTrigHash;
 
     Animator anim;
-    AudioSource audio;
+    AudioSource audioS;
 
     bool blinkerOpen;
 
@@ -25,7 +25,7 @@ public class BlinkerController : MonoBehaviour {
         blinkerOpen = false;
 
         anim = GetComponent<Animator>();
-        audio = GetComponent<AudioSource>();
+        audioS = GetComponent<AudioSource>();
     }
 
     public void Open()
@@ -35,14 +35,14 @@ public class BlinkerController : MonoBehaviour {
 
     void StartOpen()
     {
-        audio.clip = soundOpenning;
-        audio.Play();
+        audioS.clip = soundOpenning;
+        audioS.Play();
     }
 
     void IsOpen()
     {
         blinkerOpen = true;
-        audio.Stop();
+        audioS.Stop();
     }
 
     public void Close()
@@ -52,14 +52,14 @@ public class BlinkerController : MonoBehaviour {
 
     void StartClose()
     {
-        audio.clip = soundClosing;
-        audio.Play();
+        audioS.clip = soundClosing;
+        audioS.Play();
     }
 
     void IsClosed()
     {
         blinkerOpen = false;
-        audio.Stop();
+        audioS.Stop();
     }
 
     public bool CheckOpen()

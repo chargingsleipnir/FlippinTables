@@ -9,7 +9,7 @@ public class TableBehaviour : MonoBehaviour {
     ItemBehaviour[] items;
     Vector2 itemForce;
 
-    AudioSource audio;
+    AudioSource audioS;
 
     void Start()
     {
@@ -19,7 +19,7 @@ public class TableBehaviour : MonoBehaviour {
         items = GetComponentsInChildren<ItemBehaviour>();
         itemForce = new Vector2();
 
-        audio = GetComponent<AudioSource>();
+        audioS = GetComponent<AudioSource>();
     }
 
     public void Flip(Vector2 force, float torque)
@@ -38,7 +38,7 @@ public class TableBehaviour : MonoBehaviour {
             items[i].Flip(itemForce, (Random.Range(torque - Constants.RANGE_TORQUE, torque + Constants.RANGE_TORQUE)));
         }
 
-        audio.Play();
+        audioS.Play();
     }
 
     public bool CheckFlipped()

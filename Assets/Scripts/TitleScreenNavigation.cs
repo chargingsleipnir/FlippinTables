@@ -12,7 +12,8 @@ public class TitleScreenNavigation : MonoBehaviour {
 
     Button[] uiButtons;
 
-	AudioSource audio;
+    public Slider volSlider;
+	AudioSource audioS;
 	public AudioClip music;
 
     public RectTransform spiralImgTrans;
@@ -20,6 +21,13 @@ public class TitleScreenNavigation : MonoBehaviour {
     float angle;
 
     GameObject persistorObj;
+    AudioController audioCtrl;
+
+    // Hold reference to certain pages/buttons, and shut them off if not applicable to given build type
+    [SerializeField]
+    GameObject socialOpts;
+    [SerializeField]
+    GameObject exitBtn;
 
     AdController adCtrl;
 
@@ -36,15 +44,22 @@ public class TitleScreenNavigation : MonoBehaviour {
     void Start () {
         // THIS MAY NEED TO COME OUT AND BE REPLACED WITH A PROPER EXIT BUTTON
         //Screen.fullScreen = false;
+#if !(UNITY_IOS || UNITY_ANDROID)
+        socialOpts.SetActive(false);
+        exitBtn.SetActive(false);
+#endif
 
         persistorObj = GameObject.Find("Persistor");
+        audioCtrl = persistorObj.GetComponent<AudioController>();
         adCtrl = persistorObj.GetComponent<AdController>();
         socCtrl = persistorObj.GetComponent<SocialController>();
 
         adLaunched = false;
 
         blinker = GetComponent<BlinkerController>();
-		audio = GetComponent<AudioSource> ();
+		audioS = GetComponent<AudioSource> ();
+        AudioListener.volume = audioCtrl.CurrVolume;
+        volSlider.value = audioCtrl.CurrVolume;
 
         uiButtons = GetComponentsInChildren<Button>();
 
@@ -79,9 +94,9 @@ public class TitleScreenNavigation : MonoBehaviour {
                     foreach (Button button in uiButtons)
                         button.interactable = true;
 
-                    audio.clip = music;
-                    audio.loop = true;
-                    audio.Play();
+                    audioS.clip = music;
+                    audioS.loop = true;
+                    audioS.Play();
                     state = TitleScreenState.inMain;
                 }
                 break;
@@ -125,14 +140,19 @@ public class TitleScreenNavigation : MonoBehaviour {
         foreach (Button button in uiButtons)
             button.interactable = false;
 
-		audio.loop = false;
-		audio.Stop ();
+		audioS.loop = false;
+		audioS.Stop ();
 
         // multiply const minutes by 60 secs/min - use seconds as that's what deltaTime uses.
         achTimer = Constants.ACH_SOOTHING_SONG_MINS * 60.0f;
         achReached = false;
         achMsg = "";
         achievementText.text = "";
+    }
+
+    public void SetVolume() {
+        audioCtrl.CurrVolume = volSlider.value;
+        AudioListener.volume = volSlider.value;
     }
 
     public void OnPlayBtn()

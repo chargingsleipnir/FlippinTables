@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using GooglePlayGames;
+//using GooglePlayGames;
 using UnityEngine.SocialPlatforms;
 
 public class InGameUIController : MonoBehaviour {
@@ -68,8 +68,8 @@ public class InGameUIController : MonoBehaviour {
 
         //uiButtons = GetComponentsInChildren<Button>();
 
-        PlayGamesPlatform.DebugLogEnabled = true;
-        PlayGamesPlatform.Activate();
+        //PlayGamesPlatform.DebugLogEnabled = true;
+        //PlayGamesPlatform.Activate();
     }
 
     public void UpdateHUD(int score, int comboVal)
